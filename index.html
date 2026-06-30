@@ -219,6 +219,45 @@
       margin-top:18px;
     }
 
+
+    .account-accordion{
+      margin-top:22px;
+      text-align:left;
+    }
+    .account-toggle{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      color:#31445d;
+      padding:17px 18px;
+      margin-top:12px;
+      font-size:16px;
+      font-weight:800;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      cursor:pointer;
+      box-shadow:0 10px 24px rgba(102,74,45,.06);
+      font-family:inherit;
+    }
+    .account-toggle .arrow{
+      transition:transform .25s ease;
+      color:var(--gold);
+      font-size:18px;
+    }
+    .account-toggle.active .arrow{
+      transform:rotate(180deg);
+    }
+    .account-panel{
+      display:none;
+      margin-top:10px;
+      padding:2px 0 8px;
+    }
+    .account-panel.show{
+      display:block;
+    }
+
     footer{padding:42px 24px 58px;text-align:center;color:#748093;font-size:13px}
   </style>
 </head>
@@ -330,47 +369,55 @@
       <h2 class="section-title">Account</h2>
       <p class="message">마음 전하실 곳</p>
 
-      <div class="account-group">
-        <div class="account-group-title">신랑측</div>
+      <div class="account-accordion">
+        <button class="account-toggle" type="button" data-target="groomAccounts">
+          <span>신랑측 계좌 보기</span>
+          <span class="arrow">⌄</span>
+        </button>
 
-        <div class="account-card">
-          <div class="account-role">👤 신랑 <span class="account-name">윤성호</span></div>
-          <div class="account-number">하나은행 000-0000-0000</div>
-          <button class="btn light account-copy" onclick="copyText('신랑 윤성호 하나은행 000-0000-0000')">계좌 복사</button>
+        <div class="account-panel" id="groomAccounts">
+          <div class="account-card">
+            <div class="account-role">👤 신랑 <span class="account-name">윤성호</span></div>
+            <div class="account-number">하나은행 000-0000-0000</div>
+            <button class="btn light account-copy" onclick="copyText('신랑 윤성호 하나은행 000-0000-0000')">계좌 복사</button>
+          </div>
+
+          <div class="account-card">
+            <div class="account-role">👨 혼주 부 <span class="account-name">윤태순</span></div>
+            <div class="account-number">은행명 000-0000-0000</div>
+            <button class="btn light account-copy" onclick="copyText('신랑측 혼주 부 윤태순 은행명 000-0000-0000')">계좌 복사</button>
+          </div>
+
+          <div class="account-card">
+            <div class="account-role">👩 혼주 모 <span class="account-name">김정희</span></div>
+            <div class="account-number">은행명 000-0000-0000</div>
+            <button class="btn light account-copy" onclick="copyText('신랑측 혼주 모 김정희 은행명 000-0000-0000')">계좌 복사</button>
+          </div>
         </div>
 
-        <div class="account-card">
-          <div class="account-role">👨 혼주 부 <span class="account-name">윤태순</span></div>
-          <div class="account-number">은행명 000-0000-0000</div>
-          <button class="btn light account-copy" onclick="copyText('신랑측 혼주 부 윤태순 은행명 000-0000-0000')">계좌 복사</button>
-        </div>
+        <button class="account-toggle" type="button" data-target="brideAccounts">
+          <span>신부측 계좌 보기</span>
+          <span class="arrow">⌄</span>
+        </button>
 
-        <div class="account-card">
-          <div class="account-role">👩 혼주 모 <span class="account-name">김정희</span></div>
-          <div class="account-number">은행명 000-0000-0000</div>
-          <button class="btn light account-copy" onclick="copyText('신랑측 혼주 모 김정희 은행명 000-0000-0000')">계좌 복사</button>
-        </div>
-      </div>
+        <div class="account-panel" id="brideAccounts">
+          <div class="account-card">
+            <div class="account-role">👤 신부 <span class="account-name">피영아</span></div>
+            <div class="account-number">신한은행 110-495-229589</div>
+            <button class="btn light account-copy" onclick="copyText('신부 피영아 신한은행 110-495-229589')">계좌 복사</button>
+          </div>
 
-      <div class="account-group">
-        <div class="account-group-title">신부측</div>
+          <div class="account-card">
+            <div class="account-role">👨 혼주 부 <span class="account-name">피운호</span></div>
+            <div class="account-number">은행명 000-0000-0000</div>
+            <button class="btn light account-copy" onclick="copyText('신부측 혼주 부 피운호 은행명 000-0000-0000')">계좌 복사</button>
+          </div>
 
-        <div class="account-card">
-          <div class="account-role">👤 신부 <span class="account-name">피영아</span></div>
-          <div class="account-number">신한은행 110-495-229589</div>
-          <button class="btn light account-copy" onclick="copyText('신부 피영아 신한은행 110-495-229589')">계좌 복사</button>
-        </div>
-
-        <div class="account-card">
-          <div class="account-role">👨 혼주 부 <span class="account-name">피운호</span></div>
-          <div class="account-number">은행명 000-0000-0000</div>
-          <button class="btn light account-copy" onclick="copyText('신부측 혼주 부 피운호 은행명 000-0000-0000')">계좌 복사</button>
-        </div>
-
-        <div class="account-card">
-          <div class="account-role">👩 혼주 모 <span class="account-name">김명순</span></div>
-          <div class="account-number">은행명 000-0000-0000</div>
-          <button class="btn light account-copy" onclick="copyText('신부측 혼주 모 김명순 은행명 000-0000-0000')">계좌 복사</button>
+          <div class="account-card">
+            <div class="account-role">👩 혼주 모 <span class="account-name">김명순</span></div>
+            <div class="account-number">은행명 000-0000-0000</div>
+            <button class="btn light account-copy" onclick="copyText('신부측 혼주 모 김명순 은행명 000-0000-0000')">계좌 복사</button>
+          </div>
         </div>
       </div>
     </section>
@@ -767,6 +814,23 @@
         }
       });
     }
+
+
+    document.querySelectorAll(".account-toggle").forEach((button) => {
+      button.addEventListener("click", () => {
+        const targetId = button.dataset.target;
+        const panel = document.getElementById(targetId);
+        const isOpen = panel.classList.contains("show");
+
+        document.querySelectorAll(".account-panel").forEach((item) => item.classList.remove("show"));
+        document.querySelectorAll(".account-toggle").forEach((item) => item.classList.remove("active"));
+
+        if (!isOpen) {
+          panel.classList.add("show");
+          button.classList.add("active");
+        }
+      });
+    });
 
     const snowLayer=document.getElementById("snowLayer");
     const snowSymbols=["❄","❅","❆"];
