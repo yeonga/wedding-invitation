@@ -373,12 +373,57 @@
       track.scrollLeft = scrollLeft - walk;
     });
 
+    function getGallerySlides() {
+      return Array.from(track.querySelectorAll(".slide"));
+    }
+
+    function getCurrentSlideIndex() {
+      const slides = getGallerySlides();
+      const trackCenter = track.scrollLeft + track.clientWidth / 2;
+
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+
+      slides.forEach((slide, index) => {
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+        const distance = Math.abs(trackCenter - slideCenter);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      return closestIndex;
+    }
+
+    function scrollToSlide(index) {
+      const slides = getGallerySlides();
+      if (!slides.length) return;
+
+      const target = slides[index];
+      const targetLeft = target.offsetLeft - (track.clientWidth - target.offsetWidth) / 2;
+
+      track.scrollTo({
+        left: targetLeft,
+        behavior: "smooth"
+      });
+    }
+
     prevBtn.addEventListener("click", () => {
-      track.scrollBy({ left: -track.clientWidth * 0.85, behavior: "smooth" });
+      const slides = getGallerySlides();
+      const currentIndex = getCurrentSlideIndex();
+      const prevIndex = currentIndex <= 0 ? slides.length - 1 : currentIndex - 1;
+
+      scrollToSlide(prevIndex);
     });
 
     nextBtn.addEventListener("click", () => {
-      track.scrollBy({ left: track.clientWidth * 0.85, behavior: "smooth" });
+      const slides = getGallerySlides();
+      const currentIndex = getCurrentSlideIndex();
+      const nextIndex = currentIndex >= slides.length - 1 ? 0 : currentIndex + 1;
+
+      scrollToSlide(nextIndex);
     });
 
     document.getElementById("rsvpForm").addEventListener("submit", async (e) => {
@@ -398,6 +443,7 @@
 
     // ===== RSVP validation only: phone format + duplicate check =====
     const RSVP_STORAGE_KEY = "wedding_rsvp_submissions_v1";
+    const RSVP_SUBMITTED_KEY = "wedding_rsvp_submitted_v1";
     const PHONE_PATTERN = /^010-\d{4}-\d{4}$/;
 
     function normalizeName(value){return value.trim().replace(/\s+/g,"").toLowerCase();}
@@ -430,6 +476,7 @@
       const error=validateRsvpData(data);
       if(error){showError(errorId,error);return false;}
       saveRsvp(data);
+      localStorage.setItem(RSVP_SUBMITTED_KEY, "yes");
       showError(errorId,"");
       console.log("RSVP data:",data);
       alert("참석 여부가 접수되었습니다. 현재는 시안 모드이며, 이 브라우저에서 중복 제출이 제한됩니다.");
@@ -493,8 +540,11 @@
     function openRsvpModal(){if(!rsvpModal)return;rsvpModal.classList.add("show");document.body.classList.add("modal-open");}
     function closeRsvpModal(){if(!rsvpModal)return;rsvpModal.classList.remove("show");document.body.classList.remove("modal-open");}
     if(rsvpModal){
-      //window.addEventListener("load",()=>{setTimeout(openRsvpModal,650);});
-	window.addEventListener("load", () => {openRsvpModal();});
+      window.addEventListener("load", () => {
+        if (localStorage.getItem(RSVP_SUBMITTED_KEY) !== "yes") {
+          openRsvpModal();
+        }
+      });
       rsvpModalClose.addEventListener("click",closeRsvpModal);
       rsvpModal.addEventListener("click",(e)=>{if(e.target===rsvpModal)closeRsvpModal();});
       formatPhoneInput(document.getElementById("modalPhone"));
