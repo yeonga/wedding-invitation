@@ -258,6 +258,75 @@
       display:block;
     }
 
+
+    /* Refined account typography */
+    #Account .message{
+      font-size:14px;
+      color:#6f7d8f;
+      letter-spacing:.02em;
+    }
+    .account-toggle{
+      background:rgba(255,255,255,.92);
+      color:#253247;
+      font-size:15px;
+      font-weight:500;
+      letter-spacing:.02em;
+      border:1px solid #d8e2ec;
+      box-shadow:0 10px 24px rgba(37,50,71,.05);
+    }
+    .account-toggle span:first-child{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .account-toggle span:first-child::before{
+      content:"";
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:var(--gold);
+      opacity:.75;
+    }
+    .account-toggle .arrow{
+      color:#7c93ac;
+      font-weight:300;
+      font-size:17px;
+    }
+    .account-card{
+      background:rgba(255,255,255,.96);
+      border:1px solid #dfe7ef;
+      box-shadow:0 8px 22px rgba(37,50,71,.045);
+      padding:17px 16px;
+    }
+    .account-role{
+      display:block;
+      margin-bottom:8px;
+      color:#253247;
+      font-size:15px;
+      font-weight:500;
+      letter-spacing:.01em;
+      line-height:1.5;
+    }
+    .account-name{
+      color:#253247;
+      font-size:15px;
+      font-weight:500;
+      letter-spacing:.01em;
+    }
+    .account-number{
+      color:#657387;
+      font-size:14px;
+      font-weight:400;
+      letter-spacing:.01em;
+      line-height:1.65;
+    }
+    .account-copy{
+      color:#31445d;
+      background:#eef4f8;
+      font-weight:500;
+      letter-spacing:.01em;
+    }
+
     footer{padding:42px 24px 58px;text-align:center;color:#748093;font-size:13px}
   </style>
 </head>
@@ -371,50 +440,50 @@
 
       <div class="account-accordion">
         <button class="account-toggle" type="button" data-target="groomAccounts">
-          <span>신랑측 계좌 보기</span>
+          <span>신랑측 계좌</span>
           <span class="arrow">⌄</span>
         </button>
 
         <div class="account-panel" id="groomAccounts">
           <div class="account-card">
-            <div class="account-role">👤 신랑 <span class="account-name">윤성호</span></div>
+            <div class="account-role">신랑 <span class="account-name">윤성호</span></div>
             <div class="account-number">하나은행 000-0000-0000</div>
             <button class="btn light account-copy" onclick="copyText('신랑 윤성호 하나은행 000-0000-0000')">계좌 복사</button>
           </div>
 
           <div class="account-card">
-            <div class="account-role">👨 혼주 부 <span class="account-name">윤태순</span></div>
+            <div class="account-role">혼주 부 <span class="account-name">윤태순</span></div>
             <div class="account-number">은행명 000-0000-0000</div>
             <button class="btn light account-copy" onclick="copyText('신랑측 혼주 부 윤태순 은행명 000-0000-0000')">계좌 복사</button>
           </div>
 
           <div class="account-card">
-            <div class="account-role">👩 혼주 모 <span class="account-name">김정희</span></div>
+            <div class="account-role">혼주 모 <span class="account-name">김정희</span></div>
             <div class="account-number">은행명 000-0000-0000</div>
             <button class="btn light account-copy" onclick="copyText('신랑측 혼주 모 김정희 은행명 000-0000-0000')">계좌 복사</button>
           </div>
         </div>
 
         <button class="account-toggle" type="button" data-target="brideAccounts">
-          <span>신부측 계좌 보기</span>
+          <span>신부측 계좌</span>
           <span class="arrow">⌄</span>
         </button>
 
         <div class="account-panel" id="brideAccounts">
           <div class="account-card">
-            <div class="account-role">👤 신부 <span class="account-name">피영아</span></div>
+            <div class="account-role">신부 <span class="account-name">피영아</span></div>
             <div class="account-number">신한은행 110-495-229589</div>
             <button class="btn light account-copy" onclick="copyText('신부 피영아 신한은행 110-495-229589')">계좌 복사</button>
           </div>
 
           <div class="account-card">
-            <div class="account-role">👨 혼주 부 <span class="account-name">피운호</span></div>
+            <div class="account-role">혼주 부 <span class="account-name">피운호</span></div>
             <div class="account-number">은행명 000-0000-0000</div>
             <button class="btn light account-copy" onclick="copyText('신부측 혼주 부 피운호 은행명 000-0000-0000')">계좌 복사</button>
           </div>
 
           <div class="account-card">
-            <div class="account-role">👩 혼주 모 <span class="account-name">김명순</span></div>
+            <div class="account-role">혼주 모 <span class="account-name">김명순</span></div>
             <div class="account-number">은행명 000-0000-0000</div>
             <button class="btn light account-copy" onclick="copyText('신부측 혼주 모 김명순 은행명 000-0000-0000')">계좌 복사</button>
           </div>
