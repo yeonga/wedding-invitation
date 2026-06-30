@@ -493,7 +493,8 @@
     function openRsvpModal(){if(!rsvpModal)return;rsvpModal.classList.add("show");document.body.classList.add("modal-open");}
     function closeRsvpModal(){if(!rsvpModal)return;rsvpModal.classList.remove("show");document.body.classList.remove("modal-open");}
     if(rsvpModal){
-      window.addEventListener("load",()=>{setTimeout(openRsvpModal,650);});
+      //window.addEventListener("load",()=>{setTimeout(openRsvpModal,650);});
+	window.addEventListener("load", () => {openRsvpModal();});
       rsvpModalClose.addEventListener("click",closeRsvpModal);
       rsvpModal.addEventListener("click",(e)=>{if(e.target===rsvpModal)closeRsvpModal();});
       formatPhoneInput(document.getElementById("modalPhone"));
