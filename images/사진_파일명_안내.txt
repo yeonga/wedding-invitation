@@ -1,0 +1,1 @@
+main.jpg, gallery01.jpg ~ gallery15.jpg 형식으로 사진을 넣으세요.

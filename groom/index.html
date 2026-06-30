@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="윤성호 ♥ 피영아 결혼합니다">
+  <meta property="og:description" content="2025.12.20 서울 신도림 더세인트">
+  <meta property="og:image" content="https://seongho-yeonga-groom.com/thumbnail.jpg">
+  <meta property="og:url" content="https://seongho-yeonga-groom.com">
+  <title>Wedding Invitation</title>
+  <style>
+    :root {
+      --bg:#eef3f7; --paper:#fbfdff; --ink:#253247; --muted:#748093;
+      --gold:#6f8faf; --line:#d8e2ec;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.75}
+    .phone{width:100%;max-width:430px;margin:0 auto;background:var(--paper);min-height:100vh;box-shadow:0 0 40px rgba(72,50,30,.1)}
+    .hero{min-height:720px;padding:52px 26px 42px;text-align:center;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(rgba(251,253,255,.16),rgba(251,253,255,.94)),url("images/main.jpg") center/cover no-repeat,linear-gradient(135deg,#dce7f0,#fbfdff)}
+    .eyebrow{color:var(--gold);letter-spacing:4px;font-size:12px;margin-bottom:8px}
+    h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:43px;color:#2f415a;line-height:1.15}
+    .names{font-size:24px;font-weight:500;margin-bottom:10px}
+    .meta{font-size:15px;color:#5b687a}
+    nav{position:sticky;top:0;z-index:10;display:flex;gap:6px;padding:10px;background:rgba(255,250,244,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);overflow-x:auto}
+    nav a{flex:0 0 auto;text-decoration:none;color:#354a65;background:#e6edf4;padding:8px 12px;border-radius:999px;font-size:12px;white-space:nowrap}
+    section{padding:54px 24px;border-bottom:1px solid var(--line);text-align:center}
+    .section-title{font-family:Georgia,"Times New Roman",serif;font-size:30px;font-weight:400;color:var(--gold);margin:0 0 22px}
+    .message{font-size:15px;color:#526173}
+    .dday{display:inline-block;margin-top:24px;padding:10px 22px;border-radius:999px;background:var(--gold);color:#fff;font-weight:700;letter-spacing:.5px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 16px 36px rgba(102,74,45,.08)}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:18px;font-size:13px}
+    .calendar div{padding:7px 0;border-radius:10px;background:#f4f8fb;color:#59687b}
+    .calendar .head{background:transparent;color:var(--gold);font-weight:700}
+    .calendar .on{background:var(--gold);color:#fff;font-weight:700}
+    .info-list{text-align:left;margin:0;padding:0;list-style:none}
+    .info-list li{padding:12px 0;border-bottom:1px solid #e1eaf2;font-size:14px}
+    .info-list li:last-child{border-bottom:0}
+    .label{display:block;color:var(--gold);font-size:12px;font-weight:700;margin-bottom:2px}
+
+    .gallery-wrap{margin:20px -24px 0;position:relative}
+    .gallery-hint{font-size:12px;color:var(--muted);margin-bottom:10px}
+    .gallery-track{
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      padding:0 24px 16px;
+      cursor:grab;
+      user-select:none;
+      scrollbar-width:none;
+    }
+    .gallery-track:active{cursor:grabbing}
+    .gallery-track::-webkit-scrollbar{display:none}
+    .slide{
+      flex:0 0 82%;
+      height:430px;
+      scroll-snap-align:center;
+      border-radius:26px;
+      background:linear-gradient(135deg,rgba(155,118,83,.12),rgba(255,255,255,.65)),#efe2d2;
+      border:1px dashed #d7bea5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#9b7653;
+      font-size:14px;
+      overflow:hidden;
+      box-shadow:0 14px 30px rgba(102,74,45,.08);
+    }
+    .slide img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+    .slide.landscape{flex-basis:92%;height:300px}
+    .gallery-controls{display:flex;justify-content:center;gap:10px;margin-top:8px}
+    .gallery-btn{
+      width:42px;height:42px;border:0;border-radius:50%;background:#e3ebf3;color:#31445d;
+      font-size:22px;line-height:1;cursor:pointer;box-shadow:0 8px 18px rgba(102,74,45,.08)
+    }
+    .gallery-btn:active{transform:scale(.97)}
+
+    .form{text-align:left}
+    .field{margin-bottom:14px}
+    label{display:block;font-size:13px;color:#6d5b4e;font-weight:700;margin-bottom:6px}
+    input,select,textarea{width:100%;border:1px solid #cddae6;border-radius:14px;background:#fff;padding:13px 14px;font-size:15px;color:var(--ink);font-family:inherit}
+    textarea{resize:vertical;min-height:92px}
+    .btn{display:block;width:100%;border:0;border-radius:15px;padding:14px 16px;background:var(--gold);color:#fff;text-align:center;text-decoration:none;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px}
+    .btn.light{background:#e3ebf3;color:#31445d}
+    .helper{margin-top:10px;color:var(--muted);font-size:12px;text-align:center}
+    .account{text-align:left;background:#f4f8fb;border-radius:16px;padding:16px;margin-top:12px;font-size:14px}
+    .music-player{position:fixed;right:16px;bottom:16px;z-index:99;width:52px;height:52px;border:0;border-radius:50%;background:rgba(155,118,83,.94);color:#fff;font-size:20px;box-shadow:0 10px 26px rgba(63,51,40,.24);cursor:pointer}
+    .music-note{position:fixed;right:76px;bottom:28px;z-index:98;background:rgba(255,250,244,.92);border:1px solid var(--line);color:#6d5b4e;border-radius:999px;padding:7px 11px;font-size:12px;box-shadow:0 8px 20px rgba(63,51,40,.12)}
+
+    .snow-layer{pointer-events:none;position:fixed;inset:0;z-index:97;overflow:hidden}
+    .snowflake{position:absolute;top:-24px;color:rgba(255,255,255,.92);text-shadow:0 0 8px rgba(111,143,175,.55);animation-name:snowFall;animation-timing-function:linear;animation-iteration-count:infinite;user-select:none}
+    @keyframes snowFall{0%{transform:translate3d(0,-30px,0) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translate3d(var(--drift),105vh,0) rotate(360deg);opacity:.85}}
+    .rsvp-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(22,34,50,.55);backdrop-filter:blur(8px)}
+    .rsvp-modal.show{display:flex}
+    .rsvp-modal-card{width:100%;max-width:390px;max-height:88vh;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:26px 22px;box-shadow:0 24px 70px rgba(16,27,42,.28);text-align:center}
+    .rsvp-modal-card .section-title{margin-bottom:10px}
+    .rsvp-modal-actions{display:flex;gap:10px;margin-top:10px}
+    .rsvp-modal-actions .btn{margin-top:0}
+    .modal-close{width:100%;border:0;background:transparent;color:var(--muted);padding:12px 0 0;font-size:13px;cursor:pointer}
+    body.modal-open{overflow:hidden}
+    .validation-error{margin:8px 0 0;color:#b24a4a;font-size:12px;line-height:1.5}
+
+    footer{padding:42px 24px 58px;text-align:center;color:#748093;font-size:13px}
+  </style>
+</head>
+<body>
+
+  <div class="snow-layer" id="snowLayer" aria-hidden="true"></div>
+
+  <div class="rsvp-modal" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpModalTitle">
+    <div class="rsvp-modal-card">
+      <h2 class="section-title" id="rsvpModalTitle">RSVP</h2>
+      <p class="message">동시예식 준비를 위해<br />참석 여부를 먼저 알려주세요.</p>
+      <form class="form" id="rsvpModalForm">
+        <div class="field">
+          <label for="modalSide">구분</label>
+          <select id="modalSide" required>
+            <option selected>신랑측</option>
+          </select>
+        </div>
+        <div class="field"><label for="modalName">성함</label><input id="modalName" type="text" placeholder="예: 홍길동" required /></div>
+        <div class="field"><label for="modalPhone">연락처</label><input id="modalPhone" type="tel" placeholder="예: 010-0000-0000" maxlength="13" pattern="010-[0-9]{4}-[0-9]{4}" required /></div>
+        <div class="field"><label for="modalAttendance">참석 여부</label><select id="modalAttendance" required><option value="">선택해주세요</option><option>참석</option><option>불참</option><option>미정</option></select></div>
+        <div class="field"><label for="modalCompanions">동반 인원</label><select id="modalCompanions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
+        <div class="field"><label for="modalMeal">식사 예정 인원</label><select id="modalMeal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
+        <div class="field"><label for="modalMemo">전달사항</label><textarea id="modalMemo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
+        <div id="modalRsvpError" class="validation-error"></div>
+        <div class="rsvp-modal-actions"><div id="rsvpError" class="validation-error"></div>
+        <button class="btn" type="submit">참석 여부 전달하기</button></div>
+        <button class="modal-close" type="button" id="rsvpModalClose">나중에 작성하기</button>
+      </form>
+    </div>
+  </div>
+  <audio id="bgm" src="audio/wedding-music.mp3" loop preload="auto"></audio>
+  <button class="music-player" id="musicBtn" type="button" aria-label="배경음악 켜기/끄기">♪</button>
+  <div class="music-note" id="musicNote">음악 켜기</div>
+
+  <main class="phone">
+    <section class="hero">
+      <div><div class="eyebrow">WEDDING INVITATION</div><h1>Our<br />Wedding Day</h1></div>
+      <div>
+        <div class="names">윤성호 ♥ 피영아</div>
+        <div class="meta">2026년 12월 20일 일요일 오전 11시 30분</div>
+        <div class="meta">서울 신도림 더세인트 6층 그랜드볼룸홀</div>
+      </div>
+    </section>
+
+    <nav>
+      <a href="#intro">초대합니다</a><a href="#date">예식정보</a><a href="#gallery">사진</a>
+	  <a href="#Account">마음 전하실 곳</a><a href="#location">오시는 길</a><a href="#contact">연락처</a>
+	  <a href="#rsvp">참석여부</a><a href="#share">공유</a>
+    </nav>
+
+    <section id="intro">
+      <h2 class="section-title">Invitation</h2>
+      <p class="message">서로의 가장 좋은 친구가 되어<br />같은 곳을 바라보며 걸어가려 합니다.<br /><br />저희 두 사람이 하나 되는 날,<br />귀한 걸음으로 함께해 주시면<br />더없는 기쁨으로 간직하겠습니다.</p>
+      <div class="dday" id="dday">D-Day 계산 중</div>
+    </section>
+
+    <section id="date">
+      <h2 class="section-title">Wedding Day</h2>
+      <div class="card">
+        <ul class="info-list">
+          <li><span class="label">일시</span>2026년 12월 20일 일요일 오전 11시 30분</li>
+          <li><span class="label">장소</span>서울 신도림 더세인트 6층 그랜드볼룸홀</li>
+          <li><span class="label">예식 형태</span>동시예식</li>
+        </ul>
+        <div class="calendar">
+          <div class="head">일</div><div class="head">월</div><div class="head">화</div><div class="head">수</div><div class="head">목</div><div class="head">금</div><div class="head">토</div>
+          <div></div><div></div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
+          <div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div>
+          <div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div>
+          <div class="on">20</div><div>21</div><div>22</div><div>23</div><div>24</div><div>25</div><div>26</div>
+          <div>27</div><div>28</div><div>29</div><div>30</div><div>31</div><div></div><div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <h2 class="section-title">Gallery</h2>
+      <p class="message">사진 영역을 마우스로 드래그하거나 버튼으로 넘길 수 있습니다.</p>
+      <div class="gallery-wrap">
+        <div class="gallery-hint">← 좌우 드래그 / 버튼으로 사진 보기 →</div>
+        <div class="gallery-track" id="galleryTrack">
+          <div class="slide"><img src="images/gallery01.jpg" onerror="this.remove();this.parentElement.textContent='사진 01';" alt="웨딩 사진 1" /></div>
+          <div class="slide"><img src="images/gallery02.jpg" onerror="this.remove();this.parentElement.textContent='사진 02';" alt="웨딩 사진 2" /></div>
+          <div class="slide landscape"><img src="images/gallery03.jpg" onerror="this.remove();this.parentElement.textContent='가로 사진 03';" alt="웨딩 사진 3" /></div>
+          <div class="slide"><img src="images/gallery04.jpg" onerror="this.remove();this.parentElement.textContent='사진 04';" alt="웨딩 사진 4" /></div>
+          <div class="slide"><img src="images/gallery05.jpg" onerror="this.remove();this.parentElement.textContent='사진 05';" alt="웨딩 사진 5" /></div>
+          <div class="slide landscape"><img src="images/gallery06.jpg" onerror="this.remove();this.parentElement.textContent='가로 사진 06';" alt="웨딩 사진 6" /></div>
+          <div class="slide"><img src="images/gallery07.jpg" onerror="this.remove();this.parentElement.textContent='사진 07';" alt="웨딩 사진 7" /></div>
+          <div class="slide"><img src="images/gallery08.jpg" onerror="this.remove();this.parentElement.textContent='사진 08';" alt="웨딩 사진 8" /></div>
+          <div class="slide"><img src="images/gallery09.jpg" onerror="this.remove();this.parentElement.textContent='사진 09';" alt="웨딩 사진 9" /></div>
+          <div class="slide"><img src="images/gallery10.jpg" onerror="this.remove();this.parentElement.textContent='사진 10';" alt="웨딩 사진 10" /></div>
+          <div class="slide"><img src="images/gallery11.jpg" onerror="this.remove();this.parentElement.textContent='사진 11';" alt="웨딩 사진 11" /></div>
+          <div class="slide"><img src="images/gallery12.jpg" onerror="this.remove();this.parentElement.textContent='사진 12';" alt="웨딩 사진 12" /></div>
+          <div class="slide"><img src="images/gallery13.jpg" onerror="this.remove();this.parentElement.textContent='사진 13';" alt="웨딩 사진 13" /></div>
+          <div class="slide"><img src="images/gallery14.jpg" onerror="this.remove();this.parentElement.textContent='사진 14';" alt="웨딩 사진 14" /></div>
+          <div class="slide landscape"><img src="images/gallery15.jpg" onerror="this.remove();this.parentElement.textContent='가로 사진 15';" alt="웨딩 사진 15" /></div>
+        </div>
+        <div class="gallery-controls">
+          <button class="gallery-btn" id="prevPhoto" type="button" aria-label="이전 사진">‹</button>
+          <button class="gallery-btn" id="nextPhoto" type="button" aria-label="다음 사진">›</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="Account">
+      <h2 class="section-title">Account</h2>
+      <p class="message">마음 전하실 곳</p>
+      <div class="account">신랑측: 은행명 000-0000-0000 윤성호<button class="btn light" onclick="copyText('신랑측: 은행명 000-0000-0000 윤성호')">복사하기</button></div>
+      <div class="account">신부측: 은행명 000-0000-0000 피영아<button class="btn light" onclick="copyText('신부측: 은행명 000-0000-0000 피영아')">복사하기</button></div>
+    </section>
+	
+    <section id="location">
+      <h2 class="section-title">Location</h2>
+      <div class="card">
+        <ul class="info-list">
+          <li><span class="label">예식장</span>서울 신도림 더세인트 6층 그랜드볼룸홀</li>
+          <li>
+			<span class="label">주소</span>
+				서울특별시 구로구 경인로 662 디큐브시티
+		  </li>
+
+		  <li>
+			<span class="label">주차</span>
+				예식장 주차장 이용 가능
+		  </li>
+
+		  <li>
+			<span class="label">지하철</span>
+				신도림역 1호선·2호선 연결
+		  </li>
+        </ul>
+        <a class="btn" href="https://map.kakao.com/?q=신도림%20더세인트" target="_blank" rel="noreferrer">카카오맵에서 보기</a>
+        <a class="btn light" href="https://map.naver.com/p/search/신도림%20더세인트" target="_blank" rel="noreferrer">네이버지도에서 보기</a>
+      </div>
+    </section>
+	
+	<section id="contact">
+	  <h2 class="section-title">Contact</h2>
+
+	  <a class="btn"
+		 href="tel:01077543727">
+		 📞 신랑 윤성호 연락하기
+	  </a>
+
+	  <a class="btn light"
+		 href="tel:01099929591">
+		 📞 신부 피영아 연락하기
+	  </a>
+	</section>
+
+    <section id="rsvp">
+      <h2 class="section-title">RSVP</h2>
+      <p class="message">동시예식 준비를 위해 참석 여부와 동반 인원을 알려주세요.</p>
+      <form class="card form" id="rsvpForm">
+        <div class="field"><label for="side">구분</label><select id="side" required><option value="">선택해주세요</option><option selected>신랑측</option><option>신부측</option></select></div>
+        <div class="field"><label for="name">성함</label><input id="name" type="text" placeholder="예: 홍길동" required /></div>
+        <div class="field"><label for="phone">연락처</label><input id="phone" type="tel" placeholder="예: 010-0000-0000" maxlength="13" pattern="010-[0-9]{4}-[0-9]{4}" required /></div>
+        <div class="field"><label for="attendance">참석 여부</label><select id="attendance" required><option value="">선택해주세요</option><option>참석</option><option>불참</option><option>미정</option></select></div>
+        <div class="field"><label for="companions">동반 인원</label><select id="companions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
+        <div class="field"><label for="meal">식사 예정 인원</label><select id="meal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
+        <div class="field"><label for="memo">전달사항</label><textarea id="memo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
+        <button class="btn" type="submit">참석 여부 전달하기</button>
+      </form>
+    </section>
+	
+	<section id="share">
+	  <h2 class="section-title">Share</h2>
+
+	  <button class="btn" onclick="shareWedding()">
+		💛 청첩장 공유하기
+	  </button>
+	</section>
+
+    <footer>소중한 걸음으로 함께해 주세요.<br />2026.12.20 SUN 11:30 AM</footer>
+  </main>
+
+  <script>
+    const WEDDING_DATE = new Date("2026-12-20T11:30:00+09:00");
+    const today = new Date();
+    const diff = Math.ceil((WEDDING_DATE - today) / (1000 * 60 * 60 * 24));
+    document.getElementById("dday").innerText = diff > 0 ? "D-" + diff : diff === 0 ? "D-Day" : "결혼식이 지났습니다";
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => alert("복사되었습니다."));
+    }
+
+    const bgm = document.getElementById("bgm");
+    const musicBtn = document.getElementById("musicBtn");
+    const musicNote = document.getElementById("musicNote");
+    let isPlaying = false;
+
+    async function toggleMusic() {
+      try {
+        if (isPlaying) {
+          bgm.pause();
+          isPlaying = false;
+          musicBtn.textContent = "♪";
+          musicNote.textContent = "음악 켜기";
+        } else {
+          bgm.volume = 0.45;
+          await bgm.play();
+          isPlaying = true;
+          musicBtn.textContent = "Ⅱ";
+          musicNote.textContent = "음악 끄기";
+        }
+      } catch (error) {
+        alert("브라우저 정책상 화면을 한 번 터치한 뒤 음악을 재생할 수 있습니다.");
+      }
+    }
+    musicBtn.addEventListener("click", toggleMusic);
+	
+	async function shareWedding() {
+
+	  if (navigator.share) {
+		await navigator.share({
+		  title: "윤성호 ♥ 피영아 결혼합니다",
+		  text: "2025.12.20 서울 신도림 더세인트 그랜드볼룸홀",
+		  url: window.location.href
+		});
+	  } else {
+		navigator.clipboard.writeText(window.location.href);
+		alert("링크가 복사되었습니다.");
+	  }
+	}
+
+    document.addEventListener("click", async () => {
+      if (!isPlaying && sessionStorage.getItem("musicStarted") !== "yes") {
+        try {
+          bgm.volume = 0.45;
+          await bgm.play();
+          isPlaying = true;
+          sessionStorage.setItem("musicStarted", "yes");
+          musicBtn.textContent = "Ⅱ";
+          musicNote.textContent = "음악 끄기";
+        } catch (e) {}
+      }
+    }, { once: true });
+
+    const track = document.getElementById("galleryTrack");
+    const prevBtn = document.getElementById("prevPhoto");
+    const nextBtn = document.getElementById("nextPhoto");
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    track.addEventListener("mousedown", (e) => {
+      isDown = true;
+      track.classList.add("dragging");
+      startX = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+    });
+
+    track.addEventListener("mouseleave", () => {
+      isDown = false;
+      track.classList.remove("dragging");
+    });
+
+    track.addEventListener("mouseup", () => {
+      isDown = false;
+      track.classList.remove("dragging");
+    });
+
+    track.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 1.6;
+      track.scrollLeft = scrollLeft - walk;
+    });
+
+    prevBtn.addEventListener("click", () => {
+      track.scrollBy({ left: -track.clientWidth * 0.85, behavior: "smooth" });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      track.scrollBy({ left: track.clientWidth * 0.85, behavior: "smooth" });
+    });
+
+    document.getElementById("rsvpForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        side: document.getElementById("side").value,
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        attendance: document.getElementById("attendance").value,
+        companions: Number(document.getElementById("companions").value),
+        meal_count: Number(document.getElementById("meal").value),
+        memo: document.getElementById("memo").value
+      };
+      console.log("RSVP data:", data);
+      alert("참석 여부가 접수되는 화면입니다. 현재는 시안 모드입니다.");
+    });
+
+    // ===== RSVP validation only: phone format + duplicate check =====
+    const RSVP_STORAGE_KEY = "wedding_rsvp_submissions_v1";
+    const PHONE_PATTERN = /^010-\d{4}-\d{4}$/;
+
+    function normalizeName(value){return value.trim().replace(/\s+/g,"").toLowerCase();}
+    function normalizePhone(value){return value.trim();}
+    function getSavedRsvps(){
+      try{return JSON.parse(localStorage.getItem(RSVP_STORAGE_KEY)||"[]");}
+      catch(e){return [];}
+    }
+    function saveRsvp(data){
+      const saved=getSavedRsvps();
+      saved.push({nameKey:normalizeName(data.name),phoneKey:normalizePhone(data.phone),savedAt:new Date().toISOString(),data});
+      localStorage.setItem(RSVP_STORAGE_KEY,JSON.stringify(saved));
+    }
+    function isDuplicateRsvp(data){
+      const nameKey=normalizeName(data.name);
+      const phoneKey=normalizePhone(data.phone);
+      return getSavedRsvps().some(item=>item.nameKey===nameKey||item.phoneKey===phoneKey);
+    }
+    function validateRsvpData(data){
+      if(!data.name||!data.name.trim()) return "성함을 입력해주세요.";
+      if(!data.phone||!data.phone.trim()) return "연락처를 입력해주세요.";
+      if(!PHONE_PATTERN.test(data.phone.trim())) return "연락처는 010-0000-0000 형식으로 입력해주세요. 하이픈(-)도 꼭 포함해야 합니다.";
+      if(!data.side) return "신랑측/신부측 구분을 선택해주세요.";
+      if(!data.attendance) return "참석 여부를 선택해주세요.";
+      if(isDuplicateRsvp(data)) return "이미 같은 성함 또는 연락처로 참석 여부가 제출되었습니다.";
+      return "";
+    }
+    function showError(id,msg){const el=document.getElementById(id); if(el) el.textContent=msg||"";}
+    function submitRsvpData(data,errorId){
+      const error=validateRsvpData(data);
+      if(error){showError(errorId,error);return false;}
+      saveRsvp(data);
+      showError(errorId,"");
+      console.log("RSVP data:",data);
+      alert("참석 여부가 접수되었습니다. 현재는 시안 모드이며, 이 브라우저에서 중복 제출이 제한됩니다.");
+      return true;
+    }
+    function readMainRsvpData(){
+      return {
+        side:document.getElementById("side").value,
+        name:document.getElementById("name").value,
+        phone:document.getElementById("phone").value,
+        attendance:document.getElementById("attendance").value,
+        companions:Number(document.getElementById("companions").value),
+        meal_count:Number(document.getElementById("meal").value),
+        memo:document.getElementById("memo").value
+      };
+    }
+    function readModalRsvpData(){
+      return {
+        side:document.getElementById("modalSide").value,
+        name:document.getElementById("modalName").value,
+        phone:document.getElementById("modalPhone").value,
+        attendance:document.getElementById("modalAttendance").value,
+        companions:Number(document.getElementById("modalCompanions").value),
+        meal_count:Number(document.getElementById("modalMeal").value),
+        memo:document.getElementById("modalMemo").value
+      };
+    }
+    function fillMainRsvp(data){
+      document.getElementById("side").value=data.side;
+      document.getElementById("name").value=data.name;
+      document.getElementById("phone").value=data.phone;
+      document.getElementById("attendance").value=data.attendance;
+      document.getElementById("companions").value=String(data.companions);
+      document.getElementById("meal").value=String(data.meal_count);
+      document.getElementById("memo").value=data.memo;
+    }
+    function formatPhoneInput(input){
+      if(!input) return;
+      input.addEventListener("input",()=>{
+        const digits=input.value.replace(/\D/g,"").slice(0,11);
+        if(digits.length<=3) input.value=digits;
+        else if(digits.length<=7) input.value=digits.slice(0,3)+"-"+digits.slice(3);
+        else input.value=digits.slice(0,3)+"-"+digits.slice(3,7)+"-"+digits.slice(7);
+      });
+    }
+
+    const oldMainForm=document.getElementById("rsvpForm");
+    if(oldMainForm){
+      const newMainForm=oldMainForm.cloneNode(true);
+      oldMainForm.parentNode.replaceChild(newMainForm,oldMainForm);
+      formatPhoneInput(document.getElementById("phone"));
+      newMainForm.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        submitRsvpData(readMainRsvpData(),"rsvpError");
+      });
+    }
+
+    const rsvpModal=document.getElementById("rsvpModal");
+    const rsvpModalClose=document.getElementById("rsvpModalClose");
+    const rsvpModalForm=document.getElementById("rsvpModalForm");
+    function openRsvpModal(){if(!rsvpModal)return;rsvpModal.classList.add("show");document.body.classList.add("modal-open");}
+    function closeRsvpModal(){if(!rsvpModal)return;rsvpModal.classList.remove("show");document.body.classList.remove("modal-open");}
+    if(rsvpModal){
+      window.addEventListener("load",()=>{setTimeout(openRsvpModal,650);});
+      rsvpModalClose.addEventListener("click",closeRsvpModal);
+      rsvpModal.addEventListener("click",(e)=>{if(e.target===rsvpModal)closeRsvpModal();});
+      formatPhoneInput(document.getElementById("modalPhone"));
+      rsvpModalForm.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        const data=readModalRsvpData();
+        if(submitRsvpData(data,"modalRsvpError")){
+          fillMainRsvp(data);
+          closeRsvpModal();
+        }
+      });
+    }
+
+    const snowLayer=document.getElementById("snowLayer");
+    const snowSymbols=["❄","❅","❆"];
+    function createSnow(){
+      if(!snowLayer||snowLayer.children.length>0)return;
+      const count=42;
+      for(let i=0;i<count;i++){
+        const flake=document.createElement("span");
+        flake.className="snowflake";
+        flake.textContent=snowSymbols[Math.floor(Math.random()*snowSymbols.length)];
+        flake.style.left=Math.random()*100+"vw";
+        flake.style.fontSize=(Math.random()*12+10)+"px";
+        flake.style.opacity=(Math.random()*0.55+0.35).toString();
+        flake.style.animationDuration=(Math.random()*9+8)+"s";
+        flake.style.animationDelay=(Math.random()*8)+"s";
+        flake.style.setProperty("--drift",(Math.random()*90-45)+"px");
+        snowLayer.appendChild(flake);
+      }
+    }
+    createSnow();
+
+  </script>
+</body>
+</html>
