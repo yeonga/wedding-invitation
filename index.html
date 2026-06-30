@@ -103,6 +103,122 @@
     body.modal-open{overflow:hidden}
     .validation-error{margin:8px 0 0;color:#b24a4a;font-size:12px;line-height:1.5}
 
+
+    .account-group{
+      margin-top:22px;
+      text-align:left;
+    }
+    .account-group-title{
+      margin:22px 0 10px;
+      color:#31445d;
+      font-size:16px;
+      font-weight:800;
+      text-align:left;
+    }
+    .account-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      margin-top:10px;
+      box-shadow:0 10px 24px rgba(102,74,45,.06);
+    }
+    .account-role{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+      color:var(--gold);
+      font-size:13px;
+      font-weight:800;
+    }
+    .account-name{
+      color:var(--ink);
+      font-size:15px;
+      font-weight:800;
+    }
+    .account-number{
+      color:#526173;
+      font-size:14px;
+      line-height:1.6;
+    }
+    .account-copy{
+      width:auto;
+      margin-top:12px;
+      padding:10px 13px;
+      border-radius:12px;
+      font-size:13px;
+    }
+    .location-map{
+      width:100%;
+      margin:18px 0 20px;
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#f4f8fb;
+    }
+    .location-map img{
+      width:100%;
+      display:block;
+    }
+    .location-summary{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin:18px 0 20px;
+    }
+    .location-chip{
+      background:#f4f8fb;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 10px;
+      text-align:center;
+      color:#526173;
+      font-size:13px;
+      line-height:1.55;
+    }
+    .location-chip strong{
+      display:block;
+      color:#31445d;
+      font-size:14px;
+      margin-bottom:4px;
+    }
+    .transport-card{
+      text-align:left;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      margin-top:12px;
+      box-shadow:0 10px 24px rgba(102,74,45,.05);
+    }
+    .transport-title{
+      color:#31445d;
+      font-size:15px;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+    .transport-card p{
+      margin:0;
+      color:#526173;
+      font-size:14px;
+      line-height:1.7;
+    }
+    .parking-badge{
+      display:inline-block;
+      margin-top:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#e6edf4;
+      color:#31445d;
+      font-size:12px;
+      font-weight:800;
+    }
+    .map-buttons{
+      margin-top:18px;
+    }
+
     footer{padding:42px 24px 58px;text-align:center;color:#748093;font-size:13px}
   </style>
 </head>
@@ -213,11 +329,53 @@
     <section id="Account">
       <h2 class="section-title">Account</h2>
       <p class="message">마음 전하실 곳</p>
-      <div class="account">신랑측: 은행명 000-0000-0000 윤성호<button class="btn light" onclick="copyText('신랑측: 은행명 000-0000-0000 윤성호')">복사하기</button></div>
-      <div class="account">신부측: 은행명 000-0000-0000 피영아<button class="btn light" onclick="copyText('신부측: 은행명 000-0000-0000 피영아')">복사하기</button></div>
+
+      <div class="account-group">
+        <div class="account-group-title">신랑측</div>
+
+        <div class="account-card">
+          <div class="account-role">👤 신랑 <span class="account-name">윤성호</span></div>
+          <div class="account-number">하나은행 000-0000-0000</div>
+          <button class="btn light account-copy" onclick="copyText('신랑 윤성호 하나은행 000-0000-0000')">계좌 복사</button>
+        </div>
+
+        <div class="account-card">
+          <div class="account-role">👨 혼주 부 <span class="account-name">윤태순</span></div>
+          <div class="account-number">은행명 000-0000-0000</div>
+          <button class="btn light account-copy" onclick="copyText('신랑측 혼주 부 윤태순 은행명 000-0000-0000')">계좌 복사</button>
+        </div>
+
+        <div class="account-card">
+          <div class="account-role">👩 혼주 모 <span class="account-name">김정희</span></div>
+          <div class="account-number">은행명 000-0000-0000</div>
+          <button class="btn light account-copy" onclick="copyText('신랑측 혼주 모 김정희 은행명 000-0000-0000')">계좌 복사</button>
+        </div>
+      </div>
+
+      <div class="account-group">
+        <div class="account-group-title">신부측</div>
+
+        <div class="account-card">
+          <div class="account-role">👤 신부 <span class="account-name">피영아</span></div>
+          <div class="account-number">신한은행 110-495-229589</div>
+          <button class="btn light account-copy" onclick="copyText('신부 피영아 신한은행 110-495-229589')">계좌 복사</button>
+        </div>
+
+        <div class="account-card">
+          <div class="account-role">👨 혼주 부 <span class="account-name">피운호</span></div>
+          <div class="account-number">은행명 000-0000-0000</div>
+          <button class="btn light account-copy" onclick="copyText('신부측 혼주 부 피운호 은행명 000-0000-0000')">계좌 복사</button>
+        </div>
+
+        <div class="account-card">
+          <div class="account-role">👩 혼주 모 <span class="account-name">김명순</span></div>
+          <div class="account-number">은행명 000-0000-0000</div>
+          <button class="btn light account-copy" onclick="copyText('신부측 혼주 모 김명순 은행명 000-0000-0000')">계좌 복사</button>
+        </div>
+      </div>
     </section>
-	
-    <section id="location">
+
+<section id="location">
       <h2 class="section-title">Location</h2>
       <div class="card">
         <ul class="info-list">
@@ -257,7 +415,7 @@
 	</section>
 
     <section id="rsvp">
-      <h2 class="section-title">RSVP</h2>
+      <h2 class="section-title">참석 여부 전달</h2>
       <p class="message">동시예식 준비를 위해 참석 여부와 동반 인원을 알려주세요.</p>
       <form class="card form" id="rsvpForm">
         <div class="field"><label for="side">구분</label><select id="side" required><option value="">선택해주세요</option><option selected>신랑측</option><option>신부측</option></select></div>
@@ -272,7 +430,7 @@
     </section>
 	
 	<section id="share">
-	  <h2 class="section-title">Share</h2>
+	  <h2 class="section-title">청첩장 공유하기</h2>
 
 	  <button class="btn" onclick="shareWedding()">
 		💛 청첩장 공유하기
