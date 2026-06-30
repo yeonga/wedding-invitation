@@ -15,6 +15,22 @@
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
+html,
+body {
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+body {
+  position:relative;
+}
+
+.phone,
+section {
+  max-width:100%;
+  overflow-x:hidden;
+}
     body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.75}
     .phone{width:100%;max-width:430px;margin:0 auto;background:var(--paper);min-height:100vh;box-shadow:0 0 40px rgba(72,50,30,.1)}
     .hero{min-height:720px;padding:52px 26px 42px;text-align:center;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(rgba(251,253,255,.16),rgba(251,253,255,.94)),url("images/main.jpg") center/cover no-repeat,linear-gradient(135deg,#dce7f0,#fbfdff)}
@@ -38,8 +54,11 @@
     .info-list li{padding:12px 0;border-bottom:1px solid #e1eaf2;font-size:14px}
     .info-list li:last-child{border-bottom:0}
     .label{display:block;color:var(--gold);font-size:12px;font-weight:700;margin-bottom:2px}
-
-    .gallery-wrap{margin:20px -24px 0;position:relative}
+.gallery-wrap{
+  margin:20px 0 0;
+  position:relative;
+  overflow:hidden;
+}
     .gallery-hint{font-size:12px;color:var(--muted);margin-bottom:10px}
     .gallery-track{
       display:flex;
@@ -47,7 +66,7 @@
       overflow-x:auto;
       scroll-snap-type:x mandatory;
       -webkit-overflow-scrolling:touch;
-      padding:0 24px 16px;
+      padding:0 8px 16px;
       cursor:grab;
       user-select:none;
       scrollbar-width:none;
@@ -55,7 +74,7 @@
     .gallery-track:active{cursor:grabbing}
     .gallery-track::-webkit-scrollbar{display:none}
     .slide{
-      flex:0 0 82%;
+      flex:0 0 80%;
       height:430px;
       scroll-snap-align:center;
       border-radius:26px;
@@ -70,7 +89,7 @@
       box-shadow:0 14px 30px rgba(102,74,45,.08);
     }
     .slide img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-    .slide.landscape{flex-basis:92%;height:300px}
+    .slide.landscape{flex-basis:88%;height:300px}
     .gallery-controls{display:flex;justify-content:center;gap:10px;margin-top:8px}
     .gallery-btn{
       width:42px;height:42px;border:0;border-radius:50%;background:#e3ebf3;color:#31445d;
@@ -447,8 +466,8 @@
         <div class="account-panel" id="groomAccounts">
           <div class="account-card">
             <div class="account-role">신랑 <span class="account-name">윤성호</span></div>
-            <div class="account-number">하나은행 000-0000-0000</div>
-            <button class="btn light account-copy" onclick="copyText('신랑 윤성호 하나은행 000-0000-0000')">계좌 복사</button>
+            <div class="account-number">하나은행 240-910257-57307</div>
+            <button class="btn light account-copy" onclick="copyText('신랑 윤성호 하나은행 240-910257-57307')">계좌 복사</button>
           </div>
 
           <div class="account-card">
@@ -925,7 +944,14 @@
       }
     }
     createSnow();
+    // 항상 첫 화면부터 시작
+    if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+    }
 
+    window.addEventListener("pageshow", () => {
+        window.scrollTo(0, 0);
+    });
   </script>
 </body>
 </html>
