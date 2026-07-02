@@ -347,6 +347,13 @@ section {
     }
 
     footer{padding:42px 24px 58px;text-align:center;color:#748093;font-size:13px}
+
+select:disabled,
+textarea:disabled {
+  background: #f5f7fa;
+  color: #a0a8b5;
+  cursor: not-allowed;
+}
   </style>
 </head>
 <body>
@@ -889,6 +896,41 @@ section {
         else input.value = digits.slice(0, 3) + "-" + digits.slice(3, 7) + "-" + digits.slice(7);
       });
     }
+
+function setupAttendanceToggle(attendance, companions, meal, memo) {
+  if (!attendance || !companions || !meal || !memo) return;
+
+  function updateState() {
+    const disabled = attendance.value === "불참";
+
+    companions.disabled = disabled;
+    meal.disabled = disabled;
+    memo.disabled = disabled;
+
+    if (disabled) {
+      companions.value = "0";
+      meal.value = "0";
+      memo.value = "";
+    }
+  }
+
+  attendance.addEventListener("change", updateState);
+  updateState();
+}
+
+setupAttendanceToggle(
+  document.getElementById("attendance"),
+  document.getElementById("companions"),
+  document.getElementById("meal"),
+  document.getElementById("memo")
+);
+
+setupAttendanceToggle(
+  document.getElementById("modalAttendance"),
+  document.getElementById("modalCompanions"),
+  document.getElementById("modalMeal"),
+  document.getElementById("modalMemo")
+);
 
     const mainForm = document.getElementById("rsvpForm");
     if (mainForm) {
