@@ -72,3 +72,17 @@ audio 폴더에 mp3 파일을 넣고 이름을 wedding-music.mp3로 바꾸세요
 - 공유하기 눌렀을 때 상단으로 보이도록 수정
 - 계좌 수정
 - 화면 움직이는 것 수정
+
+####################################################
+
+수정 내용:
+- Supabase CDN을 inline script보다 먼저 로드
+- RSVP 저장을 Supabase insert로 연결
+- main/modal submit 이벤트를 async로 정리
+- 계좌 아코디언 및 갤러리 루프 유지
+- 스크롤 복원/상단 시작 유지
+
+사용 전:
+- SUPABASE_URL
+- SUPABASE_ANON_KEY(또는 Publishable Key)
+를 실제 값으로 교체하세요.

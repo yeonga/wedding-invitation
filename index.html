@@ -584,11 +584,21 @@ section {
     <footer>소중한 걸음으로 함께해 주세요.<br />2026.12.20 SUN 11:30 AM</footer>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    const SUPABASE_URL = "https://ertvibwumqwotubzcbhv.supabase.co/rest/v1/";
+    const SUPABASE_ANON_KEY = "sb_publishable_dD8IZ9Exz5lSFfYhgHYXgg_4vKwjLMq";
+    const supabaseClient = (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes("여기에"))
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
     const WEDDING_DATE = new Date("2026-12-20T11:30:00+09:00");
     const today = new Date();
     const diff = Math.ceil((WEDDING_DATE - today) / (1000 * 60 * 60 * 24));
-    document.getElementById("dday").innerText = diff > 0 ? "D-" + diff : diff === 0 ? "D-Day" : "결혼식이 지났습니다";
+    const ddayEl = document.getElementById("dday");
+    if (ddayEl) {
+      ddayEl.innerText = diff > 0 ? "D-" + diff : diff === 0 ? "D-Day" : "결혼식이 지났습니다";
+    }
 
     function copyText(text) {
       navigator.clipboard.writeText(text).then(() => alert("복사되었습니다."));
@@ -618,19 +628,18 @@ section {
       }
     }
     musicBtn.addEventListener("click", toggleMusic);
-	
-	async function shareWedding() {
 
-	  if (navigator.share) {
-		await navigator.share({
-		  title: "윤성호 ♥ 피영아 결혼합니다",
-		  url: window.location.href
-		});
-	  } else {
-		navigator.clipboard.writeText(window.location.href);
-		alert("링크가 복사되었습니다.");
-	  }
-	}
+    async function shareWedding() {
+      if (navigator.share) {
+        await navigator.share({
+          title: "윤성호 ♥ 피영아 결혼합니다",
+          url: window.location.href
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert("링크가 복사되었습니다.");
+      }
+    }
 
     document.addEventListener("click", async () => {
       if (!isPlaying && sessionStorage.getItem("musicStarted") !== "yes") {
@@ -652,137 +661,192 @@ section {
     let startX = 0;
     let scrollLeft = 0;
 
-    track.addEventListener("mousedown", (e) => {
-      isDown = true;
-      track.classList.add("dragging");
-      startX = e.pageX - track.offsetLeft;
-      scrollLeft = track.scrollLeft;
-    });
+    if (track) {
+      track.addEventListener("mousedown", (e) => {
+        isDown = true;
+        track.classList.add("dragging");
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+      });
 
-    track.addEventListener("mouseleave", () => {
-      isDown = false;
-      track.classList.remove("dragging");
-    });
+      track.addEventListener("mouseleave", () => {
+        isDown = false;
+        track.classList.remove("dragging");
+      });
 
-    track.addEventListener("mouseup", () => {
-      isDown = false;
-      track.classList.remove("dragging");
-    });
+      track.addEventListener("mouseup", () => {
+        isDown = false;
+        track.classList.remove("dragging");
+      });
 
-    track.addEventListener("mousemove", (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - track.offsetLeft;
-      const walk = (x - startX) * 1.6;
-      track.scrollLeft = scrollLeft - walk;
-    });
+      track.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.6;
+        track.scrollLeft = scrollLeft - walk;
+      });
+    }
 
     function getGallerySlides() {
-      return Array.from(track.querySelectorAll(".slide"));
+      return track ? Array.from(track.querySelectorAll(".slide")) : [];
     }
 
     function getCurrentSlideIndex() {
       const slides = getGallerySlides();
+      if (!slides.length || !track) return 0;
       const trackCenter = track.scrollLeft + track.clientWidth / 2;
-
       let closestIndex = 0;
       let closestDistance = Infinity;
-
       slides.forEach((slide, index) => {
         const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
         const distance = Math.abs(trackCenter - slideCenter);
-
         if (distance < closestDistance) {
           closestDistance = distance;
           closestIndex = index;
         }
       });
-
       return closestIndex;
     }
 
     function scrollToSlide(index, behavior = "smooth") {
       const slides = getGallerySlides();
-      if (!slides.length) return;
-
+      if (!slides.length || !track) return;
       const target = slides[index];
       const targetLeft = target.offsetLeft - (track.clientWidth - target.offsetWidth) / 2;
-
-      track.scrollTo({
-        left: targetLeft,
-        behavior
-      });
+      track.scrollTo({ left: targetLeft, behavior });
     }
 
     function goPrevSlide() {
       const slides = getGallerySlides();
       if (!slides.length) return;
-
       const currentIndex = getCurrentSlideIndex();
       const prevIndex = currentIndex <= 0 ? slides.length - 1 : currentIndex - 1;
-
       scrollToSlide(prevIndex);
     }
 
     function goNextSlide() {
       const slides = getGallerySlides();
       if (!slides.length) return;
-
       const currentIndex = getCurrentSlideIndex();
       const nextIndex = currentIndex >= slides.length - 1 ? 0 : currentIndex + 1;
-
       scrollToSlide(nextIndex);
     }
 
-    prevBtn.addEventListener("click", goPrevSlide);
-    nextBtn.addEventListener("click", goNextSlide);
+    prevBtn && prevBtn.addEventListener("click", goPrevSlide);
+    nextBtn && nextBtn.addEventListener("click", goNextSlide);
 
-    // 버튼뿐 아니라 손가락/마우스로 끝까지 넘긴 경우에도 순환 처리
     let dragStartScrollLeft = 0;
     let dragEndTimer = null;
-
     function handleGalleryWrapAfterScroll() {
       clearTimeout(dragEndTimer);
-
       dragEndTimer = setTimeout(() => {
         const slides = getGallerySlides();
-        if (!slides.length) return;
-
+        if (!slides.length || !track) return;
         const maxScrollLeft = track.scrollWidth - track.clientWidth;
         const currentIndex = getCurrentSlideIndex();
-
-        // 마지막 근처에서 오른쪽으로 더 넘긴 경우 첫 번째로 이동
         if (currentIndex === slides.length - 1 && track.scrollLeft >= maxScrollLeft - 6 && track.scrollLeft > dragStartScrollLeft) {
           scrollToSlide(0);
           return;
         }
-
-        // 첫 번째 근처에서 왼쪽으로 더 넘긴 경우 마지막으로 이동
         if (currentIndex === 0 && track.scrollLeft <= 6 && track.scrollLeft < dragStartScrollLeft) {
           scrollToSlide(slides.length - 1);
         }
       }, 120);
     }
 
-    track.addEventListener("touchstart", () => {
-      dragStartScrollLeft = track.scrollLeft;
-    }, { passive: true });
+    if (track) {
+      track.addEventListener("touchstart", () => {
+        dragStartScrollLeft = track.scrollLeft;
+      }, { passive: true });
+      track.addEventListener("touchend", handleGalleryWrapAfterScroll);
+      track.addEventListener("mousedown", () => {
+        dragStartScrollLeft = track.scrollLeft;
+      });
+      track.addEventListener("mouseup", handleGalleryWrapAfterScroll);
+      track.addEventListener("mouseleave", () => {
+        if (isDown) handleGalleryWrapAfterScroll();
+      });
+    }
 
-    track.addEventListener("touchend", handleGalleryWrapAfterScroll);
+    const RSVP_STORAGE_KEY = "wedding_rsvp_submissions_v1";
+    const RSVP_SUBMITTED_KEY = "wedding_rsvp_submitted_v1";
+    const PHONE_PATTERN = /^010-\d{4}-\d{4}$/;
 
-    track.addEventListener("mousedown", () => {
-      dragStartScrollLeft = track.scrollLeft;
-    });
+    function normalizeName(value) { return value.trim().replace(/\s+/g, "").toLowerCase(); }
+    function normalizePhone(value) { return value.trim(); }
 
-    track.addEventListener("mouseup", handleGalleryWrapAfterScroll);
+    function getSavedRsvps() {
+      try {
+        return JSON.parse(localStorage.getItem(RSVP_STORAGE_KEY) || "[]");
+      } catch (e) {
+        return [];
+      }
+    }
 
-    track.addEventListener("mouseleave", () => {
-      if (isDown) handleGalleryWrapAfterScroll();
-    });
+    function saveRsvp(data) {
+      const saved = getSavedRsvps();
+      saved.push({
+        nameKey: normalizeName(data.name),
+        phoneKey: normalizePhone(data.phone),
+        savedAt: new Date().toISOString(),
+        data
+      });
+      localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(saved));
+    }
 
-    document.getElementById("rsvpForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const data = {
+    function isDuplicateRsvp(data) {
+      const nameKey = normalizeName(data.name);
+      const phoneKey = normalizePhone(data.phone);
+      return getSavedRsvps().some(item => item.nameKey === nameKey || item.phoneKey === phoneKey);
+    }
+
+    function validateRsvpData(data) {
+      if (!data.name || !data.name.trim()) return "성함을 입력해주세요.";
+      if (!data.phone || !data.phone.trim()) return "연락처를 입력해주세요.";
+      if (!PHONE_PATTERN.test(data.phone.trim())) return "연락처는 010-0000-0000 형식으로 입력해주세요. 하이픈(-)도 꼭 포함해야 합니다.";
+      if (!data.side) return "신랑측/신부측 구분을 선택해주세요.";
+      if (!data.attendance) return "참석 여부를 선택해주세요.";
+      if (isDuplicateRsvp(data)) return "이미 같은 성함 또는 연락처로 참석 여부가 제출되었습니다.";
+      return "";
+    }
+
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = msg || "";
+    }
+
+    async function submitRsvpData(data, errorId) {
+      const error = validateRsvpData(data);
+      if (error) {
+        showError(errorId, error);
+        return false;
+      }
+
+      if (!supabaseClient) {
+        showError(errorId, "Supabase 설정이 아직 완료되지 않았습니다.");
+        return false;
+      }
+
+      const { error: insertError } = await supabaseClient.from("rsvp").insert([data]);
+      if (insertError) {
+        if (insertError.code === "23505") {
+          showError(errorId, "이미 같은 성함 또는 연락처로 참석 여부가 제출되었습니다.");
+        } else {
+          showError(errorId, "저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        }
+        return false;
+      }
+
+      saveRsvp(data);
+      localStorage.setItem(RSVP_SUBMITTED_KEY, "yes");
+      showError(errorId, "");
+      alert("참석 여부가 접수되었습니다.");
+      return true;
+    }
+
+    function readMainRsvpData() {
+      return {
         side: document.getElementById("side").value,
         name: document.getElementById("name").value,
         phone: document.getElementById("phone").value,
@@ -791,137 +855,80 @@ section {
         meal_count: Number(document.getElementById("meal").value),
         memo: document.getElementById("memo").value
       };
-      console.log("RSVP data:", data);
-      alert("참석 여부가 접수되는 화면입니다. 현재는 시안 모드입니다.");
-    });
+    }
 
-    // ===== RSVP validation only: phone format + duplicate check =====
-    const RSVP_STORAGE_KEY = "wedding_rsvp_submissions_v1";
-    const RSVP_SUBMITTED_KEY = "wedding_rsvp_submitted_v1";
-    const PHONE_PATTERN = /^010-\d{4}-\d{4}$/;
-
-    function normalizeName(value){return value.trim().replace(/\s+/g,"").toLowerCase();}
-    function normalizePhone(value){return value.trim();}
-    function getSavedRsvps(){
-      try{return JSON.parse(localStorage.getItem(RSVP_STORAGE_KEY)||"[]");}
-      catch(e){return [];}
-    }
-    function saveRsvp(data){
-      const saved=getSavedRsvps();
-      saved.push({nameKey:normalizeName(data.name),phoneKey:normalizePhone(data.phone),savedAt:new Date().toISOString(),data});
-      localStorage.setItem(RSVP_STORAGE_KEY,JSON.stringify(saved));
-    }
-    function isDuplicateRsvp(data){
-      const nameKey=normalizeName(data.name);
-      const phoneKey=normalizePhone(data.phone);
-      return getSavedRsvps().some(item=>item.nameKey===nameKey||item.phoneKey===phoneKey);
-    }
-    function validateRsvpData(data){
-      if(!data.name||!data.name.trim()) return "성함을 입력해주세요.";
-      if(!data.phone||!data.phone.trim()) return "연락처를 입력해주세요.";
-      if(!PHONE_PATTERN.test(data.phone.trim())) return "연락처는 010-0000-0000 형식으로 입력해주세요. 하이픈(-)도 꼭 포함해야 합니다.";
-      if(!data.side) return "신랑측/신부측 구분을 선택해주세요.";
-      if(!data.attendance) return "참석 여부를 선택해주세요.";
-      if(isDuplicateRsvp(data)) return "이미 같은 성함 또는 연락처로 참석 여부가 제출되었습니다.";
-      return "";
-    }
-    function showError(id,msg){const el=document.getElementById(id); if(el) el.textContent=msg||"";}
-    function submitRsvpData(data,errorId){
-      const error=validateRsvpData(data);
-      if(error){showError(errorId,error);return false;}
-      saveRsvp(data);
-      localStorage.setItem(RSVP_SUBMITTED_KEY, "yes");
-      showError(errorId,"");
-      console.log("RSVP data:",data);
-      alert("참석 여부가 접수되었습니다. 현재는 시안 모드이며, 이 브라우저에서 중복 제출이 제한됩니다.");
-      return true;
-    }
-    function readMainRsvpData(){
+    function readModalRsvpData() {
       return {
-        side:document.getElementById("side").value,
-        name:document.getElementById("name").value,
-        phone:document.getElementById("phone").value,
-        attendance:document.getElementById("attendance").value,
-        companions:Number(document.getElementById("companions").value),
-        meal_count:Number(document.getElementById("meal").value),
-        memo:document.getElementById("memo").value
+        side: document.getElementById("modalSide").value,
+        name: document.getElementById("modalName").value,
+        phone: document.getElementById("modalPhone").value,
+        attendance: document.getElementById("modalAttendance").value,
+        companions: Number(document.getElementById("modalCompanions").value),
+        meal_count: Number(document.getElementById("modalMeal").value),
+        memo: document.getElementById("modalMemo").value
       };
     }
-    function readModalRsvpData(){
-      return {
-        side:document.getElementById("modalSide").value,
-        name:document.getElementById("modalName").value,
-        phone:document.getElementById("modalPhone").value,
-        attendance:document.getElementById("modalAttendance").value,
-        companions:Number(document.getElementById("modalCompanions").value),
-        meal_count:Number(document.getElementById("modalMeal").value),
-        memo:document.getElementById("modalMemo").value
-      };
+
+    function fillMainRsvp(data) {
+      document.getElementById("side").value = data.side;
+      document.getElementById("name").value = data.name;
+      document.getElementById("phone").value = data.phone;
+      document.getElementById("attendance").value = data.attendance;
+      document.getElementById("companions").value = String(data.companions);
+      document.getElementById("meal").value = String(data.meal_count);
+      document.getElementById("memo").value = data.memo;
     }
-    function fillMainRsvp(data){
-      document.getElementById("side").value=data.side;
-      document.getElementById("name").value=data.name;
-      document.getElementById("phone").value=data.phone;
-      document.getElementById("attendance").value=data.attendance;
-      document.getElementById("companions").value=String(data.companions);
-      document.getElementById("meal").value=String(data.meal_count);
-      document.getElementById("memo").value=data.memo;
-    }
-    function formatPhoneInput(input){
-      if(!input) return;
-      input.addEventListener("input",()=>{
-        const digits=input.value.replace(/\D/g,"").slice(0,11);
-        if(digits.length<=3) input.value=digits;
-        else if(digits.length<=7) input.value=digits.slice(0,3)+"-"+digits.slice(3);
-        else input.value=digits.slice(0,3)+"-"+digits.slice(3,7)+"-"+digits.slice(7);
+
+    function formatPhoneInput(input) {
+      if (!input) return;
+      input.addEventListener("input", () => {
+        const digits = input.value.replace(/\D/g, "").slice(0, 11);
+        if (digits.length <= 3) input.value = digits;
+        else if (digits.length <= 7) input.value = digits.slice(0, 3) + "-" + digits.slice(3);
+        else input.value = digits.slice(0, 3) + "-" + digits.slice(3, 7) + "-" + digits.slice(7);
       });
     }
 
-    const oldMainForm=document.getElementById("rsvpForm");
-    if(oldMainForm){
-      const newMainForm=oldMainForm.cloneNode(true);
-      oldMainForm.parentNode.replaceChild(newMainForm,oldMainForm);
+    const mainForm = document.getElementById("rsvpForm");
+    if (mainForm) {
+      mainForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await submitRsvpData(readMainRsvpData(), "rsvpError");
+      });
       formatPhoneInput(document.getElementById("phone"));
-      newMainForm.addEventListener("submit",(e)=>{
-        e.preventDefault();
-        submitRsvpData(readMainRsvpData(),"rsvpError");
-      });
     }
 
-    const rsvpModal=document.getElementById("rsvpModal");
-    const rsvpModalClose=document.getElementById("rsvpModalClose");
-    const rsvpModalForm=document.getElementById("rsvpModalForm");
-    function openRsvpModal(){if(!rsvpModal)return;rsvpModal.classList.add("show");document.body.classList.add("modal-open");}
-    function closeRsvpModal(){if(!rsvpModal)return;rsvpModal.classList.remove("show");document.body.classList.remove("modal-open");}
-    if(rsvpModal){
+    const rsvpModal = document.getElementById("rsvpModal");
+    const rsvpModalClose = document.getElementById("rsvpModalClose");
+    const rsvpModalForm = document.getElementById("rsvpModalForm");
+    function openRsvpModal() { if (!rsvpModal) return; rsvpModal.classList.add("show"); document.body.classList.add("modal-open"); }
+    function closeRsvpModal() { if (!rsvpModal) return; rsvpModal.classList.remove("show"); document.body.classList.remove("modal-open"); }
+
+    if (rsvpModal) {
       window.addEventListener("load", () => {
-        if (localStorage.getItem(RSVP_SUBMITTED_KEY) !== "yes") {
-          openRsvpModal();
-        }
+        if (localStorage.getItem(RSVP_SUBMITTED_KEY) !== "yes") openRsvpModal();
       });
-      rsvpModalClose.addEventListener("click",closeRsvpModal);
-      rsvpModal.addEventListener("click",(e)=>{if(e.target===rsvpModal)closeRsvpModal();});
+      rsvpModalClose && rsvpModalClose.addEventListener("click", closeRsvpModal);
+      rsvpModal.addEventListener("click", (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
       formatPhoneInput(document.getElementById("modalPhone"));
-      rsvpModalForm.addEventListener("submit",(e)=>{
+      rsvpModalForm && rsvpModalForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const data=readModalRsvpData();
-        if(submitRsvpData(data,"modalRsvpError")){
+        const data = readModalRsvpData();
+        const ok = await submitRsvpData(data, "modalRsvpError");
+        if (ok) {
           fillMainRsvp(data);
           closeRsvpModal();
         }
       });
     }
 
-
     document.querySelectorAll(".account-toggle").forEach((button) => {
       button.addEventListener("click", () => {
         const targetId = button.dataset.target;
         const panel = document.getElementById(targetId);
         const isOpen = panel.classList.contains("show");
-
         document.querySelectorAll(".account-panel").forEach((item) => item.classList.remove("show"));
         document.querySelectorAll(".account-toggle").forEach((item) => item.classList.remove("active"));
-
         if (!isOpen) {
           panel.classList.add("show");
           button.classList.add("active");
@@ -929,33 +936,28 @@ section {
       });
     });
 
-    const snowLayer=document.getElementById("snowLayer");
-    const snowSymbols=["❄","❅","❆"];
-    function createSnow(){
-      if(!snowLayer||snowLayer.children.length>0)return;
-      const count=42;
-      for(let i=0;i<count;i++){
-        const flake=document.createElement("span");
-        flake.className="snowflake";
-        flake.textContent=snowSymbols[Math.floor(Math.random()*snowSymbols.length)];
-        flake.style.left=Math.random()*100+"vw";
-        flake.style.fontSize=(Math.random()*12+10)+"px";
-        flake.style.opacity=(Math.random()*0.55+0.35).toString();
-        flake.style.animationDuration=(Math.random()*9+8)+"s";
-        flake.style.animationDelay=(Math.random()*8)+"s";
-        flake.style.setProperty("--drift",(Math.random()*90-45)+"px");
+    const snowLayer = document.getElementById("snowLayer");
+    const snowSymbols = ["❄", "❅", "❆"];
+    function createSnow() {
+      if (!snowLayer || snowLayer.children.length > 0) return;
+      const count = 42;
+      for (let i = 0; i < count; i++) {
+        const flake = document.createElement("span");
+        flake.className = "snowflake";
+        flake.textContent = snowSymbols[Math.floor(Math.random() * snowSymbols.length)];
+        flake.style.left = Math.random() * 100 + "vw";
+        flake.style.fontSize = (Math.random() * 12 + 10) + "px";
+        flake.style.opacity = (Math.random() * 0.55 + 0.35).toString();
+        flake.style.animationDuration = (Math.random() * 9 + 8) + "s";
+        flake.style.animationDelay = (Math.random() * 8) + "s";
+        flake.style.setProperty("--drift", (Math.random() * 90 - 45) + "px");
         snowLayer.appendChild(flake);
       }
     }
     createSnow();
-    // 항상 첫 화면부터 시작
-    if ("scrollRestoration" in history) {
-        history.scrollRestoration = "manual";
-    }
 
-    window.addEventListener("pageshow", () => {
-        window.scrollTo(0, 0);
-    });
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.addEventListener("pageshow", () => window.scrollTo(0, 0));
   </script>
 </body>
 </html>
