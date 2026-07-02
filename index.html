@@ -586,11 +586,12 @@ section {
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = "https://ertvibwumqwotubzcbhv.supabase.co/rest/v1/";
+    const SUPABASE_URL = "https://ertvibwumqwotubzcbhv.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_dD8IZ9Exz5lSFfYhgHYXgg_4vKwjLMq";
-    const supabaseClient = (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes("여기에"))
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-      : null;
+      const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
 
     const WEDDING_DATE = new Date("2026-12-20T11:30:00+09:00");
     const today = new Date();
