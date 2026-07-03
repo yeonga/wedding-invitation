@@ -568,16 +568,25 @@ textarea:disabled {
       <p class="message">결혼식과 함께 코스 요리가 제공됩니다.</p>
       <p class="message">본 예식은 1부 예식과 2부 피로연(식사)이 한 자리에서 <br/> 진행되는 동시 예식입니다.</p>
       <p class="message">동시예식 준비를 위해 참석 여부와 동반 인원을 알려주세요.</p>
-      <form class="card form" id="rsvpForm">
-        <div class="field"><label for="side">구분</label><select id="side" required><option value="">선택해주세요</option><option selected>신랑측</option><option>신부측</option></select></div>
-        <div class="field"><label for="name">성함</label><input id="name" type="text" placeholder="예: 홍길동" required /></div>
-        <div class="field"><label for="phone">연락처</label><input id="phone" type="tel" placeholder="예: 010-0000-0000" maxlength="13" pattern="010-[0-9]{4}-[0-9]{4}" required /></div>
-        <div class="field"><label for="attendance">참석 여부</label><select id="attendance" required><option value="">선택해주세요</option><option>참석</option><option>불참</option><option>미정</option></select></div>
-        <div class="field"><label for="companions">동반 인원</label><select id="companions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
-        <div class="field"><label for="meal">식사 예정 인원</label><select id="meal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
-        <div class="field"><label for="memo">전달사항</label><textarea id="memo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
-        <button class="btn" type="submit">참석 여부 전달하기</button>
-      </form>
+      <div id="rsvpFormWrap">
+       <form class="card form" id="rsvpForm">
+         <div class="field"><label for="side">구분</label><select id="side" required><option value="">선택해주세요</option><option selected>신랑측</option><option>신부측</option></select></div>
+         <div class="field"><label for="name">성함</label><input id="name" type="text" placeholder="예: 홍길동" required /></div>
+         <div class="field"><label for="phone">연락처</label><input id="phone" type="tel" placeholder="예: 010-0000-0000" maxlength="13" pattern="010-[0-9]{4}-[0-9]{4}" required /></div>
+         <div class="field"><label for="attendance">참석 여부</label><select id="attendance" required><option value="">선택해주세요</option><option>참석</option><option>불참</option><option>미정</option></select></div>
+         <div class="field"><label for="companions">동반 인원</label><select id="companions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
+         <div class="field"><label for="meal">식사 예정 인원</label><select id="meal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
+         <div class="field"><label for="memo">전달사항</label><textarea id="memo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
+         <button class="btn" type="submit">참석 여부 전달하기</button>
+       </form>
+      </div>
+      <div id="rsvpDone" class="card" style="display:none; text-align:center;">
+      <h3 style="margin:0 0 8px;">참석 여부 전달 완료</h3>
+       <p class="message" style="margin:0;">
+         소중한 참석 의사 전달 감사합니다.<br />
+         예식 준비에 큰 도움이 되었습니다.
+       </p>
+      </div>
     </section>
 	
 	<section id="share">
@@ -848,6 +857,7 @@ textarea:disabled {
 
       saveRsvp(data);
       localStorage.setItem(RSVP_SUBMITTED_KEY, "yes");
+      renderRsvpState();
       showError(errorId, "");
       alert("참석 여부가 접수되었습니다.");
       return true;
@@ -918,6 +928,16 @@ function setupAttendanceToggle(attendance, companions, meal, memo) {
   updateState();
 }
 
+function renderRsvpState() {
+  const done = localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes";
+
+  const formWrap = document.getElementById("rsvpFormWrap");
+  const doneBox = document.getElementById("rsvpDone");
+
+  if (formWrap) formWrap.style.display = done ? "none" : "block";
+  if (doneBox) doneBox.style.display = done ? "block" : "none";
+}
+
 setupAttendanceToggle(
   document.getElementById("attendance"),
   document.getElementById("companions"),
@@ -950,6 +970,7 @@ setupAttendanceToggle(
     if (rsvpModal) {
       window.addEventListener("load", () => {
         if (localStorage.getItem(RSVP_SUBMITTED_KEY) !== "yes") openRsvpModal();
+        renderRsvpState();
       });
       rsvpModalClose && rsvpModalClose.addEventListener("click", closeRsvpModal);
       rsvpModal.addEventListener("click", (e) => { if (e.target === rsvpModal) closeRsvpModal(); });

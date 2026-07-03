@@ -86,3 +86,8 @@ audio 폴더에 mp3 파일을 넣고 이름을 wedding-music.mp3로 바꾸세요
 - SUPABASE_URL
 - SUPABASE_ANON_KEY(또는 Publishable Key)
 를 실제 값으로 교체하세요.
+
+####################################################
+
+수정 내용:
+- 한 번 제출한 사람은 다시 팝업 안뜨도록 수정
