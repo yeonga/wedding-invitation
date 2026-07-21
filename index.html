@@ -381,7 +381,11 @@ textarea:disabled {
         <div class="field"><label for="modalMeal">식사 예정 인원</label><select id="modalMeal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
         <div class="field"><label for="modalMemo">전달사항</label><textarea id="modalMemo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
         <div id="modalRsvpError" class="validation-error"></div>
-        <div class="rsvp-modal-actions"><div id="rsvpError" class="validation-error"></div>
+		<div class="rsvp-modal-actions">
+		  <button class="btn" type="submit">
+			참석 여부 전달하기
+		  </button>
+		</div>
         <button class="btn" type="submit">참석 여부 전달하기</button></div>
         <button class="modal-close" type="button" id="rsvpModalClose">나중에 작성하기</button>
       </form>
@@ -580,13 +584,35 @@ textarea:disabled {
          <button class="btn" type="submit">참석 여부 전달하기</button>
        </form>
       </div>
-      <div id="rsvpDone" class="card" style="display:none; text-align:center;">
-      <h3 style="margin:0 0 8px;">참석 여부 전달 완료</h3>
-       <p class="message" style="margin:0;">
-         소중한 참석 의사 전달 감사합니다.<br />
-         예식 준비에 큰 도움이 되었습니다.
-       </p>
-      </div>
+      <div id="rsvpDone" class="card" style="display:none;text-align:center;">
+
+<h3 style="margin-bottom:14px;">
+참석 여부가 정상적으로 전달되었습니다.
+</h3>
+
+<p class="message">
+
+소중한 시간을 내어 응답해 주셔서
+진심으로 감사합니다.
+
+<br><br>
+
+예식 준비에 큰 도움이 되었습니다.
+
+<br><br>
+
+변경이 필요하신 경우에는
+
+신랑 또는 신부에게
+편하게 연락 부탁드립니다.
+
+</p>
+
+<a class="btn light" href="#contact">
+신랑 · 신부 연락하기
+</a>
+
+</div>
     </section>
 	
 	<section id="share">
@@ -786,82 +812,110 @@ textarea:disabled {
       });
     }
 
-    const RSVP_STORAGE_KEY = "wedding_rsvp_submissions_v1";
     const RSVP_SUBMITTED_KEY = "wedding_rsvp_submitted_v1";
     const PHONE_PATTERN = /^010-\d{4}-\d{4}$/;
 
-    function normalizeName(value) { return value.trim().replace(/\s+/g, "").toLowerCase(); }
-    function normalizePhone(value) { return value.trim(); }
+	function validateRsvpData(data) {
+	  if (!data.name || !data.name.trim()) {
+		return "성함을 입력해주세요.";
+	  }
 
-    function getSavedRsvps() {
-      try {
-        return JSON.parse(localStorage.getItem(RSVP_STORAGE_KEY) || "[]");
-      } catch (e) {
-        return [];
-      }
-    }
+	  if (!data.phone || !data.phone.trim()) {
+		return "연락처를 입력해주세요.";
+	  }
 
-    function saveRsvp(data) {
-      const saved = getSavedRsvps();
-      saved.push({
-        nameKey: normalizeName(data.name),
-        phoneKey: normalizePhone(data.phone),
-        savedAt: new Date().toISOString(),
-        data
-      });
-      localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(saved));
-    }
+	  if (!PHONE_PATTERN.test(data.phone.trim())) {
+		return "연락처는 010-0000-0000 형식으로 입력해주세요. 하이픈(-)도 꼭 포함해야 합니다.";
+	  }
 
-    function isDuplicateRsvp(data) {
-      const nameKey = normalizeName(data.name);
-      const phoneKey = normalizePhone(data.phone);
-      return getSavedRsvps().some(item => item.nameKey === nameKey || item.phoneKey === phoneKey);
-    }
+	  if (!data.side) {
+		return "신랑측/신부측 구분을 선택해주세요.";
+	  }
 
-    function validateRsvpData(data) {
-      if (!data.name || !data.name.trim()) return "성함을 입력해주세요.";
-      if (!data.phone || !data.phone.trim()) return "연락처를 입력해주세요.";
-      if (!PHONE_PATTERN.test(data.phone.trim())) return "연락처는 010-0000-0000 형식으로 입력해주세요. 하이픈(-)도 꼭 포함해야 합니다.";
-      if (!data.side) return "신랑측/신부측 구분을 선택해주세요.";
-      if (!data.attendance) return "참석 여부를 선택해주세요.";
-      if (isDuplicateRsvp(data)) return "이미 같은 성함 또는 연락처로 참석 여부가 제출되었습니다.";
-      return "";
-    }
+	  if (!data.attendance) {
+		return "참석 여부를 선택해주세요.";
+	  }
+
+	  return "";
+	}
 
     function showError(id, msg) {
       const el = document.getElementById(id);
       if (el) el.textContent = msg || "";
     }
 
-    async function submitRsvpData(data, errorId) {
-      const error = validateRsvpData(data);
-      if (error) {
-        showError(errorId, error);
-        return false;
-      }
+	async function submitRsvpData(data, errorId, submitButton) {
+	  const originalButtonText =
+		submitButton?.textContent || "참석 여부 전달하기";
 
-      if (!supabaseClient) {
-        showError(errorId, "Supabase 설정이 아직 완료되지 않았습니다.");
-        return false;
-      }
+	  if (submitButton) {
+		submitButton.disabled = true;
+		submitButton.textContent = "전송 중...";
+	  }
 
-      const { error: insertError } = await supabaseClient.from("rsvp").insert([data]);
-      if (insertError) {
-        if (insertError.code === "23505") {
-          showError(errorId, "이미 같은 성함 또는 연락처로 참석 여부가 제출되었습니다.");
-        } else {
-          showError(errorId, "저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        }
-        return false;
-      }
+	  showError(errorId, "");
 
-      saveRsvp(data);
-      localStorage.setItem(RSVP_SUBMITTED_KEY, "yes");
-      renderRsvpState();
-      showError(errorId, "");
-      alert("참석 여부가 접수되었습니다.");
-      return true;
-    }
+	  try {
+		const validationError = validateRsvpData(data);
+
+		if (validationError) {
+		  showError(errorId, validationError);
+		  return false;
+		}
+
+		if (!supabaseClient) {
+		  showError(
+			errorId,
+			"Supabase 설정이 아직 완료되지 않았습니다."
+		  );
+		  return false;
+		}
+
+		const { error: insertError } = await supabaseClient
+		  .from("rsvp")
+		  .insert([data]);
+
+		if (insertError) {
+		  console.error("RSVP 저장 오류:", insertError);
+
+		  if (insertError.code === "23505") {
+			showError(
+			  errorId,
+			  "이미 같은 성함 또는 연락처로 참석 여부가 제출되었습니다."
+			);
+		  } else {
+			showError(
+			  errorId,
+			  "저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+			);
+		  }
+
+		  return false;
+		}
+
+		// 팝업과 입력 폼을 숨기기 위한 기기별 상태만 저장
+		localStorage.setItem(RSVP_SUBMITTED_KEY, "yes");
+
+		renderRsvpState();
+		showError(errorId, "");
+
+		return true;
+	  } catch (error) {
+		console.error("RSVP 전송 오류:", error);
+
+		showError(
+		  errorId,
+		  "네트워크 연결을 확인한 뒤 다시 시도해주세요."
+		);
+
+		return false;
+	  } finally {
+		if (submitButton) {
+		  submitButton.disabled = false;
+		  submitButton.textContent = originalButtonText;
+		}
+	  }
+	}
 
     function readMainRsvpData() {
       return {
@@ -954,10 +1008,20 @@ setupAttendanceToggle(
 
     const mainForm = document.getElementById("rsvpForm");
     if (mainForm) {
-      mainForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await submitRsvpData(readMainRsvpData(), "rsvpError");
-      });
+		mainForm.addEventListener("submit", async (e) => {
+		  e.preventDefault();
+
+		  const submitButton = e.currentTarget.querySelector(
+			"button[type='submit']"
+		  );
+
+		  await submitRsvpData(
+			readMainRsvpData(),
+			"rsvpError",
+			submitButton
+		  );
+		});
+	);
       formatPhoneInput(document.getElementById("phone"));
     }
 
@@ -975,15 +1039,27 @@ setupAttendanceToggle(
       rsvpModalClose && rsvpModalClose.addEventListener("click", closeRsvpModal);
       rsvpModal.addEventListener("click", (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
       formatPhoneInput(document.getElementById("modalPhone"));
-      rsvpModalForm && rsvpModalForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const data = readModalRsvpData();
-        const ok = await submitRsvpData(data, "modalRsvpError");
-        if (ok) {
-          fillMainRsvp(data);
-          closeRsvpModal();
-        }
-      });
+		rsvpModalForm &&
+		  rsvpModalForm.addEventListener("submit", async (e) => {
+			e.preventDefault();
+
+			const data = readModalRsvpData();
+			const submitButton = e.currentTarget.querySelector(
+			  "button[type='submit']"
+			);
+
+			const ok = await submitRsvpData(
+			  data,
+			  "modalRsvpError",
+			  submitButton
+			);
+
+			if (ok) {
+			  fillMainRsvp(data);
+			  closeRsvpModal();
+			}
+		  });	  
+		);
     }
 
     document.querySelectorAll(".account-toggle").forEach((button) => {
