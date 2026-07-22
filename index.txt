@@ -135,11 +135,10 @@ section {
     opacity:1;
     visibility:visible;
 }
-    .rsvp-modal.show{display:flex}
 .rsvp-modal-card{
     position:relative;
     width:min(390px,100%);
-    max-height:88vh;
+    max-height:calc(100dvh - 40px);
 
     overflow:auto;
 
@@ -421,6 +420,23 @@ textarea:disabled {
       </form>
     </div>
   </div>
+
+  <script>
+    // RSVP 팝업을 이미지·음악·Supabase 로딩보다 먼저 표시합니다.
+    (function () {
+      const submittedKey = "wedding_rsvp_submitted_v1";
+      const modal = document.getElementById("rsvpModal");
+
+      if (
+        modal &&
+        localStorage.getItem(submittedKey) !== "yes"
+      ) {
+        document.body.classList.add("modal-open");
+        modal.classList.add("show");
+      }
+    })();
+  </script>
+
   <audio id="bgm" src="audio/wedding-music.mp3" loop preload="auto"></audio>
   <button class="music-player" id="musicBtn" type="button" aria-label="배경음악 켜기/끄기">♪</button>
   <div class="music-note" id="musicNote">음악 켜기</div>
@@ -1070,18 +1086,9 @@ function openRsvpModal(){
     function closeRsvpModal() { if (!rsvpModal) return; rsvpModal.classList.remove("show"); document.body.classList.remove("modal-open"); }
 
 if (rsvpModal) {
+  renderRsvpState();
 
-  document.addEventListener("DOMContentLoaded", () => {
-
-    renderRsvpState();
-
-    if (localStorage.getItem(RSVP_SUBMITTED_KEY) !== "yes") {
-      openRsvpModal();
-    }
-
-  });
-
-  rsvpModalClose && rsvpModalClose.addEventListener("click", closeRsvpModal);
+rsvpModalClose && rsvpModalClose.addEventListener("click", closeRsvpModal);
 
   rsvpModal.addEventListener("click", (e) => {
     if (e.target === rsvpModal) {
