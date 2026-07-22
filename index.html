@@ -1066,6 +1066,40 @@ function setupAttendanceToggle(attendance, companions, meal, memo) {
   updateState();
 }
 
+function setupMealLimit(companions, meal) {
+  if (!companions || !meal) return;
+
+  function updateMealOptions() {
+    const companionCount = Number(companions.value);
+
+    // 선택 가능한 최대 식사 인원 = 본인(1) + 동반인원
+    const maxMeal = companionCount + 1;
+
+    Array.from(meal.options).forEach(option => {
+      const value = Number(option.value);
+
+      if (value === 0) {
+        option.hidden = false;
+        option.disabled = false;
+        return;
+      }
+
+      const allowed = value <= maxMeal;
+
+      option.hidden = !allowed;
+      option.disabled = !allowed;
+    });
+
+    // 현재 선택값이 허용 범위를 넘으면 식사 안 함으로 변경
+    if (Number(meal.value) > maxMeal) {
+      meal.value = "0";
+    }
+  }
+
+  companions.addEventListener("change", updateMealOptions);
+  updateMealOptions();
+}
+
 function renderRsvpState() {
   const done = localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes";
 
@@ -1083,11 +1117,21 @@ setupAttendanceToggle(
   document.getElementById("memo")
 );
 
+setupMealLimit(
+  document.getElementById("companions"),
+  document.getElementById("meal")
+);
+
 setupAttendanceToggle(
   document.getElementById("modalAttendance"),
   document.getElementById("modalCompanions"),
   document.getElementById("modalMeal"),
   document.getElementById("modalMemo")
+);
+
+setupMealLimit(
+  document.getElementById("modalCompanions"),
+  document.getElementById("modalMeal")
 );
 
     const mainForm = document.getElementById("rsvpForm");
