@@ -895,8 +895,13 @@ textarea:disabled {
 
 		// 팝업과 입력 폼을 숨기기 위한 기기별 상태만 저장
 		localStorage.setItem(RSVP_SUBMITTED_KEY, "yes");
-
 		renderRsvpState();
+		
+		document.getElementById("rsvpDone")?.scrollIntoView({
+		  behavior: "smooth",
+		  block: "center"
+		});
+		
 		showError(errorId, "");
 
 		return true;
