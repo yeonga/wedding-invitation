@@ -113,41 +113,49 @@ section {
     .snowflake{position:absolute;top:-24px;color:rgba(255,255,255,.92);text-shadow:0 0 8px rgba(111,143,175,.55);animation-name:snowFall;animation-timing-function:linear;animation-iteration-count:infinite;user-select:none}
     @keyframes snowFall{0%{transform:translate3d(0,-30px,0) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translate3d(var(--drift),105vh,0) rotate(360deg);opacity:.85}}
 
-.rsvp-modal{
-    position:fixed;
-    inset:0;
-    z-index:120;
+.rsvp-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+  display: none;
+  place-items: center;
 
-    padding:20px;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
 
-    background:rgba(22,34,50,.55);
-    backdrop-filter:blur(8px);
+  background: rgba(22, 34, 50, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 
-    opacity:0;
-    visibility:hidden;
-    transition:.2s;
+  overflow-y: auto;
 }
 
-.rsvp-modal.show{
-    opacity:1;
-    visibility:visible;
+.rsvp-modal.show {
+  display: grid;
 }
-    .rsvp-modal.show{display:flex}
-.rsvp-modal-card{
-    width:min(390px,100%);
-    max-height:88vh;
 
-    overflow:auto;
+.rsvp-modal-card {
+  width: min(390px, calc(100vw - 32px));
 
-    margin:auto;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
 
-    background:var(--paper);
-    border-radius:28px;
+  margin: auto;
+  padding: 26px 22px;
+
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: 0 24px 70px rgba(16, 27, 42, 0.28);
+
+  text-align: center;
 }
+
     .rsvp-modal-card .section-title{margin-bottom:10px}
     .rsvp-modal-actions{display:flex;gap:10px;margin-top:10px}
     .rsvp-modal-actions .btn{margin-top:0}
@@ -428,6 +436,40 @@ textarea:disabled {
       </form>
     </div>
   </div>
+  
+  <script>
+	  (function () {
+		const submittedKey = "wedding_rsvp_submitted_v1";
+		const legacyKey = "wedding_rsvp_submissions_v1";
+		const modal = document.getElementById("rsvpModal");
+
+		const url = new URL(window.location.href);
+		const resetRequested =
+		  url.searchParams.get("resetRsvp") === "1";
+
+		if (resetRequested) {
+		  localStorage.removeItem(submittedKey);
+		  localStorage.removeItem(legacyKey);
+
+		  url.searchParams.delete("resetRsvp");
+
+		  history.replaceState(
+			null,
+			"",
+			url.pathname + url.search + url.hash
+		  );
+		}
+
+		const alreadySubmitted =
+		  localStorage.getItem(submittedKey) === "yes";
+
+		if (modal && !alreadySubmitted) {
+		  modal.classList.add("show");
+		  document.body.classList.add("modal-open");
+		}
+	  })();
+	</script>
+  
   <audio id="bgm" src="audio/wedding-music.mp3" loop preload="auto"></audio>
   <button class="music-player" id="musicBtn" type="button" aria-label="배경음악 켜기/끄기">♪</button>
   <div class="music-note" id="musicNote">음악 켜기</div>
@@ -1081,15 +1123,7 @@ function openRsvpModal() {
 
 if (rsvpModal) {
 
-  document.addEventListener("DOMContentLoaded", () => {
-
-    renderRsvpState();
-
-    if (localStorage.getItem(RSVP_SUBMITTED_KEY) !== "yes") {
-      openRsvpModal();
-    }
-
-  });
+  renderRsvpState();
 
   rsvpModalClose && rsvpModalClose.addEventListener("click", closeRsvpModal);
 
