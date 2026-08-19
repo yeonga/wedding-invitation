@@ -8,6 +8,14 @@
 <meta property="og:image" content="https://seongho-yeonga-wedding-invitation.vercel.app/images/thumbnail.jpg">
 <meta property="og:url" content="https://seongho-yeonga-wedding-invitation.vercel.app/">
   <title>윤성호 ♥ 피영아 청첩장</title>
+  
+  <link
+  rel="preload"
+  as="image"
+  href="images/main.webp"
+  fetchpriority="high"
+/>
+  
   <style>
     :root {
       --bg:#eef3f7; --paper:#fbfdff; --ink:#253247; --muted:#748093;
@@ -399,6 +407,56 @@ textarea:disabled {
   color: #a0a8b5;
   cursor: not-allowed;
 }
+
+.privacy-agree{
+  margin:16px 0 6px;
+  padding:14px;
+  background:#f4f8fb;
+  border:1px solid var(--line);
+  border-radius:14px;
+}
+
+.privacy-check{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:0;
+  font-size:13px;
+  color:#526173;
+  font-weight:500;
+  cursor:pointer;
+}
+
+.privacy-check input{
+  width:18px;
+  height:18px;
+  flex:0 0 18px;
+  margin:0;
+}
+
+.privacy-detail-btn{
+  border:0;
+  background:transparent;
+  color:var(--gold);
+  font-size:12px;
+  text-decoration:underline;
+  cursor:pointer;
+  padding:5px 0 0;
+}
+
+.privacy-detail{
+  display:none;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+  color:#748093;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.privacy-detail.show{
+  display:block;
+}
   </style>
 </head>
 <body>
@@ -425,6 +483,31 @@ textarea:disabled {
         <div class="field"><label for="modalCompanions">동반 인원</label><select id="modalCompanions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
         <div class="field"><label for="modalMeal">식사 예정 인원</label><select id="modalMeal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
         <div class="field"><label for="modalMemo">전달사항</label><textarea id="modalMemo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
+		
+		<div class="privacy-agree">
+  <label class="privacy-check">
+    <input type="checkbox" id="modalPrivacyAgree" required />
+    <span>개인정보 수집 및 이용에 동의합니다.</span>
+  </label>
+
+  <button
+    class="privacy-detail-btn"
+    type="button"
+    onclick="togglePrivacy('modalPrivacyDetail')"
+  >
+    내용보기
+  </button>
+
+  <div class="privacy-detail" id="modalPrivacyDetail">
+    <strong>개인정보 수집 및 이용 안내</strong><br />
+    수집 항목: 성함, 연락처, 참석 여부, 동반 인원, 식사 예정 인원, 전달사항<br />
+    이용 목적: 결혼식 참석 여부 확인 및 예식 준비<br />
+    보유 기간: 예식 종료 후 필요한 확인 절차가 끝나는 시점까지<br /><br />
+    개인정보 수집 및 이용에 동의하지 않으실 수 있으나,
+    동의하지 않을 경우 RSVP 제출이 어렵습니다.
+  </div>
+</div>
+
         <div id="modalRsvpError" class="validation-error"></div>
 		<div class="rsvp-modal-actions">
 		  <button class="btn" type="submit">
@@ -470,7 +553,7 @@ textarea:disabled {
 	  })();
 	</script>
   
-  <audio id="bgm" src="audio/wedding-music.mp3" loop preload="auto"></audio>
+  <audio id="bgm" src="audio/wedding-music.mp3" loop preload="none"></audio>
   <button class="music-player" id="musicBtn" type="button" aria-label="배경음악 켜기/끄기">♪</button>
   <div class="music-note" id="musicNote">음악 켜기</div>
 
@@ -492,7 +575,7 @@ textarea:disabled {
 
     <section id="intro">
       <h2 class="section-title">Invitation</h2>
-      <p class="message">서로의 가장 좋은 친구가 되어<br />같은 곳을 바라보며 걸어가려 합니다.<br /><br />저희 두 사람이 하나 되는 날,<br />귀한 걸음으로 함께해 주시면<br />더없는 기쁨으로 간직하겠습니다.</p>
+      <p class="message">눈 오는 날 처음 만나<br />네 번째 맞이하는 겨울에 결혼합니다.<br /><br />같은 곳을 바라보며 걸어가는 첫걸음에<br />귀한 발걸음으로 축복해 주시면<br />더없는 기쁨으로 간직하겠습니다.</p>
       <div class="dday" id="dday">D-Day 계산 중</div>
     </section>
 
@@ -522,21 +605,21 @@ textarea:disabled {
       <div class="gallery-wrap">
         <div class="gallery-hint">← 좌우 드래그 / 버튼으로 사진 보기 →</div>
         <div class="gallery-track" id="galleryTrack">
-          <div class="slide"><img src="images/gallery01.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 01';" alt="웨딩 사진 1" /></div>
-          <div class="slide"><img src="images/gallery02.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 02';" alt="웨딩 사진 2" /></div>
-          <div class="slide landscape"><img src="images/gallery03.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='가로 사진 03';" alt="웨딩 사진 3" /></div>
-          <div class="slide"><img src="images/gallery04.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 04';" alt="웨딩 사진 4" /></div>
-          <div class="slide"><img src="images/gallery05.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 05';" alt="웨딩 사진 5" /></div>
-          <div class="slide"><img src="images/gallery06.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 06';" alt="웨딩 사진 6" /></div>
-          <div class="slide"><img src="images/gallery07.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 07';" alt="웨딩 사진 7" /></div>
-          <div class="slide"><img src="images/gallery08.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 08';" alt="웨딩 사진 8" /></div>
-          <div class="slide"><img src="images/gallery09.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 09';" alt="웨딩 사진 9" /></div>
-          <div class="slide landscape"><img src="images/gallery10.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='가로 사진 10';" alt="웨딩 사진 10" /></div>
-          <div class="slide"><img src="images/gallery11.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 11';" alt="웨딩 사진 11" /></div>
-          <div class="slide"><img src="images/gallery12.webp" loading="lazy"" onerror="this.remove();this.parentElement.textContent='사진 12';" alt="웨딩 사진 12" /></div>
-          <div class="slide"><img src="images/gallery13.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='사진 13';" alt="웨딩 사진 13" /></div>
-          <div class="slide"><img src="images/gallery14.webp" loading="lazy"" onerror="this.remove();this.parentElement.textContent='사진 14';" alt="웨딩 사진 14" /></div>
-          <div class="slide landscape"><img src="images/gallery15.webp" loading="lazy" onerror="this.remove();this.parentElement.textContent='가로 사진 15';" alt="웨딩 사진 15" /></div>
+          <div class="slide"><img src="images/gallery01.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 01';" alt="웨딩 사진 1" /></div>
+          <div class="slide"><img src="images/gallery02.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 02';" alt="웨딩 사진 2" /></div>
+          <div class="slide landscape"><img src="images/gallery03.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='가로 사진 03';" alt="웨딩 사진 3" /></div>
+          <div class="slide"><img src="images/gallery04.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 04';" alt="웨딩 사진 4" /></div>
+          <div class="slide"><img src="images/gallery05.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 05';" alt="웨딩 사진 5" /></div>
+          <div class="slide"><img src="images/gallery06.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 06';" alt="웨딩 사진 6" /></div>
+          <div class="slide"><img src="images/gallery07.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 07';" alt="웨딩 사진 7" /></div>
+          <div class="slide"><img src="images/gallery08.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 08';" alt="웨딩 사진 8" /></div>
+          <div class="slide"><img src="images/gallery09.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 09';" alt="웨딩 사진 9" /></div>
+          <div class="slide landscape"><img src="images/gallery10.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='가로 사진 10';" alt="웨딩 사진 10" /></div>
+          <div class="slide"><img src="images/gallery11.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 11';" alt="웨딩 사진 11" /></div>
+          <div class="slide"><img src="images/gallery12.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 12';" alt="웨딩 사진 12" /></div>
+          <div class="slide"><img src="images/gallery13.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 13';" alt="웨딩 사진 13" /></div>
+          <div class="slide"><img src="images/gallery14.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 14';" alt="웨딩 사진 14" /></div>
+          <div class="slide landscape"><img src="images/gallery15.webp" loading="lazy" decoding="async" onerror="this.remove();this.parentElement.textContent='가로 사진 15';" alt="웨딩 사진 15" /></div>
         </div>
         <div class="gallery-controls">
           <button class="gallery-btn" id="prevPhoto" type="button" aria-label="이전 사진">‹</button>
@@ -660,6 +743,31 @@ textarea:disabled {
          <div class="field"><label for="companions">동반 인원</label><select id="companions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
          <div class="field"><label for="meal">식사 예정 인원</label><select id="meal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
          <div class="field"><label for="memo">전달사항</label><textarea id="memo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
+		 
+		 <div class="privacy-agree">
+  <label class="privacy-check">
+    <input type="checkbox" id="privacyAgree" required />
+    <span>개인정보 수집 및 이용에 동의합니다.</span>
+  </label>
+
+  <button
+    class="privacy-detail-btn"
+    type="button"
+    onclick="togglePrivacy('privacyDetail')"
+  >
+    내용보기
+  </button>
+
+  <div class="privacy-detail" id="privacyDetail">
+    <strong>개인정보 수집 및 이용 안내</strong><br />
+    수집 항목: 성함, 연락처, 참석 여부, 동반 인원, 식사 예정 인원, 전달사항<br />
+    이용 목적: 결혼식 참석 여부 확인 및 예식 준비<br />
+    보유 기간: 예식 종료 후 필요한 확인 절차가 끝나는 시점까지<br /><br />
+    개인정보 수집 및 이용에 동의하지 않으실 수 있으나,
+    동의하지 않을 경우 RSVP 제출이 어렵습니다.
+  </div>
+</div>
+
          <button class="btn" type="submit">참석 여부 전달하기</button>
        </form>
       </div>
@@ -762,19 +870,6 @@ textarea:disabled {
         alert("링크가 복사되었습니다.");
       }
     }
-
-    document.addEventListener("click", async () => {
-      if (!isPlaying && sessionStorage.getItem("musicStarted") !== "yes") {
-        try {
-          bgm.volume = 0.45;
-          await bgm.play();
-          isPlaying = true;
-          sessionStorage.setItem("musicStarted", "yes");
-          musicBtn.textContent = "Ⅱ";
-          musicNote.textContent = "음악 끄기";
-        } catch (e) {}
-      }
-    }, { once: true });
 
     const track = document.getElementById("galleryTrack");
     const prevBtn = document.getElementById("prevPhoto");
@@ -1236,6 +1331,11 @@ if (rsvpModal) {
 
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.addEventListener("pageshow", () => window.scrollTo(0, 0));
+	
+	function togglePrivacy(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle("show");
+}
   </script>
 </body>
 </html>
