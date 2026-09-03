@@ -457,6 +457,16 @@ textarea:disabled {
 .privacy-detail.show{
   display:block;
 }
+
+.meal-notice{
+  margin:8px 2px 0;
+  color:#7b8797;
+  font-size:12px;
+  font-weight:400;
+  line-height:1.6;
+  word-break:keep-all;
+}
+
   </style>
 </head>
 <body>
@@ -481,7 +491,10 @@ textarea:disabled {
         <div class="field"><label for="modalPhone">연락처</label><input id="modalPhone" type="tel" placeholder="예: 010-0000-0000" maxlength="13" pattern="010-[0-9]{4}-[0-9]{4}" required /></div>
         <div class="field"><label for="modalAttendance">참석 여부</label><select id="modalAttendance" required><option value="">선택해주세요</option><option>참석</option><option>불참</option><option>미정</option></select></div>
         <div class="field"><label for="modalCompanions">동반 인원</label><select id="modalCompanions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
-        <div class="field"><label for="modalMeal">식사 예정 인원</label><select id="modalMeal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
+        <div class="field"><label for="modalMeal">식사 예정 인원</label><select id="modalMeal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select><p class="meal-notice">
+    ※ 별도의 소인 메뉴는 없습니다. 아동도 식사 시 식권이 필요하니,
+    식사 인원에 포함해 주시고 입장 전 식권을 챙겨주세요.
+  </p></div>
         <div class="field"><label for="modalMemo">전달사항</label><textarea id="modalMemo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
 		
 		<div class="privacy-agree">
@@ -737,7 +750,10 @@ textarea:disabled {
          <div class="field"><label for="phone">연락처</label><input id="phone" type="tel" placeholder="예: 010-0000-0000" maxlength="13" pattern="010-[0-9]{4}-[0-9]{4}" required /></div>
          <div class="field"><label for="attendance">참석 여부</label><select id="attendance" required><option value="">선택해주세요</option><option>참석</option><option>불참</option><option>미정</option></select></div>
          <div class="field"><label for="companions">동반 인원</label><select id="companions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
-         <div class="field"><label for="meal">식사 예정 인원</label><select id="meal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
+         <div class="field"><label for="meal">식사 예정 인원</label><select id="meal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select><p class="meal-notice">
+    ※ 별도의 소인 메뉴는 없습니다. 아동도 식사 시 식권이 필요하니,
+    식사 인원에 포함해 주시고 입장 전 식권을 챙겨주세요.
+  </p></div>
          <div class="field"><label for="memo">전달사항</label><textarea id="memo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
 		 
 		 <div class="privacy-agree">
