@@ -1446,6 +1446,20 @@ function setupMealLimit(companions, meal) {
 }
 
 function renderRsvpState() {
+  const done =
+    localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes";
+
+  const formWrap = document.getElementById("rsvpFormWrap");
+  const doneBox = document.getElementById("rsvpDone");
+
+  if (formWrap) {
+    formWrap.style.display = done ? "none" : "block";
+  }
+
+  if (doneBox) {
+    doneBox.style.display = done ? "block" : "none";
+  }
+}
 
 if (
   localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes"
@@ -1453,19 +1467,6 @@ if (
   setTimeout(() => {
     showMusicGuide();
   }, 700);
-}
-
-if (
-  localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes"
-) {
-  setTimeout(showMusicGuide, 500);
-}
-
-  const formWrap = document.getElementById("rsvpFormWrap");
-  const doneBox = document.getElementById("rsvpDone");
-
-  if (formWrap) formWrap.style.display = done ? "none" : "block";
-  if (doneBox) doneBox.style.display = done ? "block" : "none";
 }
 
 setupAttendanceToggle(
