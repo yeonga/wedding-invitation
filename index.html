@@ -497,51 +497,6 @@ textarea:disabled {
   word-break:keep-all;
 }
 
-.music-guide{
-display:none;
-
-  position:fixed;
-  top:16px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:200;
-
-  width:calc(100% - 32px);
-  max-width:390px;
-  padding:11px 16px;
-
-  background:rgba(255,255,255,.94);
-  border:1px solid var(--line);
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(37,50,71,.12);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-
-  text-align:center;
-  opacity:1;
-  transition:opacity .5s ease, transform .5s ease;
-}
-
-.music-guide strong{
-  display:block;
-  color:#31445d;
-  font-size:13px;
-  font-weight:600;
-}
-
-.music-guide span{
-  display:block;
-  margin-top:2px;
-  color:#748093;
-  font-size:11px;
-}
-
-.music-guide.hide{
-  opacity:0;
-  transform:translate(-50%,-10px);
-  pointer-events:none;
-}
-
 /* RSVP 폼 글꼴 */
 #rsvp .form,
 #rsvpModal .form {
@@ -697,20 +652,68 @@ display:none;
   font-weight: 400;
 }
 
+.modal-music-guide{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin:0 0 16px;
+  padding:11px 13px;
+
+  background:#f3f7fa;
+  border:1px solid #dbe5ed;
+  border-radius:14px;
+
+  font-family:"Pretendard",sans-serif;
+  text-align:left;
+}
+
+.modal-music-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:32px;
+  height:32px;
+  flex:0 0 32px;
+
+  border-radius:50%;
+  background:#e3ebf3;
+  color:#526f8d;
+
+  font-size:16px;
+  font-weight:600;
+}
+
+.modal-music-guide strong{
+  display:block;
+  color:#34445a;
+  font-size:12px;
+  font-weight:600;
+}
+
+.modal-music-guide p{
+  margin:2px 0 0;
+  color:#7b8797;
+  font-size:11px;
+  line-height:1.5;
+}
+
   </style>
 </head>
 <body>
-
-<div class="music-guide" id="musicGuide">
-  <strong>♪ 음악과 함께 천천히 둘러봐 주세요</strong>
-  <span>우측 하단에서 음악을 켤 수 있어요.</span>
-</div>
-
   <div class="snow-layer" id="snowLayer" aria-hidden="true"></div>
 
   <div class="rsvp-modal" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpModalTitle">
     <div class="rsvp-modal-card">
       <h2 class="section-title" id="rsvpModalTitle">RSVP</h2>
+	  <div class="modal-music-guide">
+  <span class="modal-music-icon">♪</span>
+  <div>
+    <strong>음악과 함께 둘러봐 주세요</strong>
+    <p>RSVP 작성 후 우측 하단에서 음악을 켤 수 있어요.</p>
+  </div>
+</div>
       <p class="message">결혼식과 함께 코스 요리가 제공됩니다.</p>
       <p class="message">본 예식은 1부 예식과 2부 피로연(식사)이 <br /> 한 자리에서 진행되는 동시 예식입니다.</p>
       <p class="message">동시예식 준비를 위해<br />참석 여부를 먼저 알려주세요.</p>
@@ -1537,11 +1540,15 @@ rsvpModalClose &&
     }, 300);
   });
 
-  rsvpModal.addEventListener("click", (e) => {
-    if (e.target === rsvpModal) {
-      closeRsvpModal();
-    }
-  });
+rsvpModal.addEventListener("click", (e) => {
+  if (e.target === rsvpModal) {
+    closeRsvpModal();
+
+    setTimeout(() => {
+      showMusicGuide();
+    }, 300);
+  }
+});
 
   formatPhoneInput(document.getElementById("modalPhone"));
 
