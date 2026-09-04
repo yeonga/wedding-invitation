@@ -413,40 +413,65 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
-.privacy-agree{
-  margin:16px 0 6px;
-  padding:14px;
-  background:#f4f8fb;
-  border:1px solid var(--line);
-  border-radius:14px;
+.privacy-agree {
+  margin: 16px 0 8px;
+  padding: 14px 15px;
+
+  background: #f4f8fb;
+  border: 1px solid var(--line);
+  border-radius: 14px;
 }
 
-.privacy-check{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  margin:0;
-  font-size:13px;
-  color:#526173;
-  font-weight:500;
-  cursor:pointer;
+.privacy-check {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 9px;
+
+  width: 100%;
+  margin: 0;
+
+  font-family: "Pretendard", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+
+  color: #526173;
+  cursor: pointer;
 }
 
-.privacy-check input{
-  width:18px;
-  height:18px;
-  flex:0 0 18px;
-  margin:0;
+.privacy-check input[type="checkbox"] {
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+
+  flex: 0 0 18px;
+  margin: 0;
+  padding: 0;
 }
 
-.privacy-detail-btn{
-  border:0;
-  background:transparent;
-  color:var(--gold);
-  font-size:12px;
-  text-decoration:underline;
-  cursor:pointer;
-  padding:5px 0 0;
+.privacy-check span {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  word-break: keep-all;
+}
+
+.privacy-detail-btn {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: var(--gold);
+  font-family: "Pretendard", sans-serif;
+  font-size: 12px;
+
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .privacy-detail{
@@ -517,7 +542,7 @@ display:none;
   pointer-events:none;
 }
 
-/* RSVP 폼 - 부드럽고 여유 있는 스타일 */
+/* RSVP 폼 글꼴 */
 #rsvp .form,
 #rsvpModal .form {
   font-family:
@@ -528,60 +553,67 @@ display:none;
     sans-serif;
 }
 
-/* 항목 제목 */
-#rsvp .field label,
-#rsvpModal .field label {
+/* 항목명 */
+#rsvp .field > label,
+#rsvpModal .field > label {
   margin-bottom: 9px;
   color: #526173;
-  font-size: 13px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
-/* 입력창 + 셀렉트 */
-#rsvp input,
+/* 일반 입력창 - 체크박스 제외 */
+#rsvp input:not([type="checkbox"]),
+#rsvpModal input:not([type="checkbox"]),
 #rsvp select,
-#rsvpModal input,
 #rsvpModal select {
   width: 100%;
-  min-height: 58px;
+  min-height: 60px;
 
   padding: 0 18px;
 
   border: 1px solid #d8e2ec;
   border-radius: 17px;
 
-  background: #fff;
+  background-color: #fff;
   color: #34445a;
 
-  font-family: "Pretendard", sans-serif;
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 
-  box-shadow: 0 3px 12px rgba(37, 50, 71, 0.025);
+  box-shadow: 0 3px 12px rgba(37,50,71,.03);
 }
 
-/* 선택창 */
+/* Select */
 #rsvp select,
 #rsvpModal select {
+  padding-left: 18px;
   padding-right: 42px;
-  cursor: pointer;
 }
 
-/* 클릭했을 때 */
-#rsvp input:focus,
+/* 포커스 */
+#rsvp input:not([type="checkbox"]):focus,
+#rsvpModal input:not([type="checkbox"]):focus,
 #rsvp select:focus,
-#rsvpModal input:focus,
 #rsvpModal select:focus {
   outline: none;
   border-color: #9aafc3;
-  box-shadow: 0 0 0 3px rgba(111, 143, 175, 0.10);
+  box-shadow: 0 0 0 3px rgba(111,143,175,.10);
 }
 
 /* 전달사항 */
 #rsvp textarea,
 #rsvpModal textarea {
+  width: 100%;
   min-height: 110px;
   padding: 16px 18px;
 
@@ -596,7 +628,7 @@ display:none;
   color: #34445a;
 }
 
-/* 항목 사이 간격 */
+/* 항목 사이 여백 */
 #rsvp .field,
 #rsvpModal .field {
   margin-bottom: 18px;
@@ -609,6 +641,60 @@ display:none;
   padding: 14px 16px;
   font-size: 15px;
   border-radius: 15px;
+}
+
+.music-guide {
+  display: none;
+
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 110;
+
+  width: calc(100% - 32px);
+  max-width: 390px;
+
+  padding: 11px 16px;
+
+  background: rgba(255,255,255,.96);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(37,50,71,.12);
+
+  font-family: "Pretendard", sans-serif;
+  text-align: center;
+
+  opacity: 1;
+}
+
+.music-guide.show {
+  display: block;
+}
+
+.music-guide.hide {
+  opacity: 0;
+  transform: translate(-50%, -10px);
+  transition:
+    opacity .5s ease,
+    transform .5s ease;
+  pointer-events: none;
+}
+
+.music-guide strong {
+  display: block;
+  color: #31445d;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.music-guide span {
+  display: block;
+  margin-top: 2px;
+  color: #748093;
+  font-size: 11px;
+  font-weight: 400;
 }
 
   </style>
@@ -714,7 +800,10 @@ display:none;
 		}
 	  })();
 	</script>
-  
+  <div class="music-guide" id="musicGuide">
+  <strong>♪ 음악과 함께 천천히 둘러봐 주세요</strong>
+  <span>우측 하단에서 음악을 켤 수 있어요.</span>
+</div>
   <audio id="bgm" src="audio/wedding-music.mp3" loop preload="none"></audio>
   <button class="music-player" id="musicBtn" type="button" aria-label="배경음악 켜기/끄기">♪</button>
   <div class="music-note" id="musicNote">음악 켜기</div>
@@ -1357,7 +1446,14 @@ function setupMealLimit(companions, meal) {
 }
 
 function renderRsvpState() {
-  const done = localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes";
+
+if (
+  localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes"
+) {
+  setTimeout(() => {
+    showMusicGuide();
+  }, 700);
+}
 
 if (
   localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes"
@@ -1431,10 +1527,13 @@ if (rsvpModal) {
 
   renderRsvpState();
 
-  rsvpModalClose &&
+rsvpModalClose &&
   rsvpModalClose.addEventListener("click", () => {
     closeRsvpModal();
-    showMusicGuide();
+
+    setTimeout(() => {
+      showMusicGuide();
+    }, 300);
   });
 
   rsvpModal.addEventListener("click", (e) => {
@@ -1459,10 +1558,14 @@ if (rsvpModal) {
       );
 
       if (ok) {
-        fillMainRsvp(data);
-        closeRsvpModal();
-		showMusicGuide();
-      }
+  fillMainRsvp(data);
+  closeRsvpModal();
+
+  setTimeout(() => {
+    showMusicGuide();
+  }, 300);
+}
+
     });
 
 }
@@ -1522,6 +1625,7 @@ function showMusicGuide() {
 
     setTimeout(() => {
       musicGuide.classList.remove("show");
+      musicGuide.classList.remove("hide");
     }, 500);
   }, 5000);
 }
