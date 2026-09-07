@@ -101,7 +101,13 @@ section {
       overflow:hidden;
       box-shadow:0 14px 30px rgba(102,74,45,.08);
     }
-    .slide img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+	.slide img{
+	  width:100%;
+	  height:100%;
+	  object-fit:cover;
+	  display:block;
+	  cursor:zoom-in;
+	}
     .slide.landscape{flex-basis:88%;height:300px}
     .gallery-controls{display:flex;justify-content:center;gap:10px;margin-top:8px}
     .gallery-btn{
@@ -614,7 +620,7 @@ textarea:disabled {
 
   background: rgba(255,255,255,.96);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 13px;
 
   box-shadow: 0 10px 30px rgba(37,50,71,.12);
 
@@ -699,6 +705,124 @@ textarea:disabled {
   color:#7b8797;
   font-size:11px;
   line-height:1.5;
+}
+
+.gallery-count{
+  min-width:64px;
+  height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:0 12px;
+
+  background:#f4f8fb;
+  border:1px solid var(--line);
+  border-radius:999px;
+
+  color:#526173;
+  font-family:"Pretendard",sans-serif;
+  font-size:12px;
+  font-weight:500;
+}
+
+.photo-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:300;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  padding:52px 16px 60px;
+
+  background:rgba(15,22,30,.94);
+}
+
+.photo-lightbox.show{
+  display:flex;
+}
+
+.photo-lightbox img{
+  display:block;
+
+  max-width:100%;
+  max-height:calc(100dvh - 120px);
+
+  object-fit:contain;
+
+  border-radius:10px;
+  box-shadow:0 18px 60px rgba(0,0,0,.35);
+}
+
+.lightbox-close{
+  position:absolute;
+  top:14px;
+  right:16px;
+
+  width:42px;
+  height:42px;
+
+  border:0;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.14);
+  color:#fff;
+
+  font-size:29px;
+  line-height:1;
+
+  cursor:pointer;
+}
+
+.lightbox-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+
+  width:44px;
+  height:44px;
+
+  border:0;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.14);
+  color:#fff;
+
+  font-size:30px;
+  cursor:pointer;
+}
+
+.lightbox-prev{
+  left:10px;
+}
+
+.lightbox-next{
+  right:10px;
+}
+
+.lightbox-count{
+  position:absolute;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+
+  padding:6px 12px;
+
+  background:rgba(255,255,255,.14);
+  border-radius:999px;
+
+  color:#fff;
+
+  font-family:"Pretendard",sans-serif;
+  font-size:12px;
+  font-weight:500;
+}
+
+body.lightbox-open{
+  overflow:hidden;
 }
 
   </style>
@@ -873,10 +997,11 @@ textarea:disabled {
           <div class="slide"><img src="images/gallery10.webp" decoding="async" onerror="this.remove();this.parentElement.textContent='사진 10';" alt="웨딩 사진 10" /></div>
           <div class="slide landscape"><img src="images/gallery11.webp" decoding="async" onerror="this.remove();this.parentElement.textContent='가로 사진 11';" alt="웨딩 사진 11" /></div>
         </div>
-        <div class="gallery-controls">
-          <button class="gallery-btn" id="prevPhoto" type="button" aria-label="이전 사진">‹</button>
-          <button class="gallery-btn" id="nextPhoto" type="button" aria-label="다음 사진">›</button>
-        </div>
+		<div class="gallery-controls">
+		  <button class="gallery-btn" id="prevPhoto" type="button" aria-label="이전 사진">‹</button>
+		  <div class="gallery-count" id="galleryCount">1 / 11</div>
+		  <button class="gallery-btn" id="nextPhoto" type="button" aria-label="다음 사진">›</button>
+		</div>
       </div>
     </section>
 
@@ -930,8 +1055,8 @@ textarea:disabled {
 
           <div class="account-card">
             <div class="account-role">혼주 모 <span class="account-name">김명순</span></div>
-            <div class="account-number">은행명 000-0000-0000</div>
-            <button class="btn light account-copy" onclick="copyText('신부측 혼주 모 김명순 은행명 000-0000-0000')">계좌 복사</button>
+            <div class="account-number">농협 785-01-102-118</div>
+            <button class="btn light account-copy" onclick="copyText('신부측 혼주 모 김명순 농협은행 785-01-102-118')">계좌 복사</button>
           </div>
         </div>
       </div>
@@ -1067,6 +1192,22 @@ textarea:disabled {
 
     <footer>소중한 걸음으로 함께해 주세요.<br />2026.12.20 SUN 11:30 AM</footer>
   </main>
+  
+  <img
+    id="lightboxImage"
+    src=""
+    alt="웨딩 사진 확대 보기"
+  />
+  <button
+    class="lightbox-nav lightbox-next"
+    id="lightboxNext"
+    type="button"
+    aria-label="다음 사진"
+  >
+    ›
+  </button>
+  <div class="lightbox-count" id="lightboxCount"></div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -1207,6 +1348,149 @@ textarea:disabled {
 
     prevBtn && prevBtn.addEventListener("click", goPrevSlide);
     nextBtn && nextBtn.addEventListener("click", goNextSlide);
+
+	/* ===== 사진 확대 + 사진 번호 표시 시작 ===== */
+
+	const galleryCount = document.getElementById("galleryCount");
+
+	const photoLightbox = document.getElementById("photoLightbox");
+	const lightboxImage = document.getElementById("lightboxImage");
+	const lightboxCount = document.getElementById("lightboxCount");
+	const lightboxClose = document.getElementById("lightboxClose");
+	const lightboxPrev = document.getElementById("lightboxPrev");
+	const lightboxNext = document.getElementById("lightboxNext");
+
+	let lightboxIndex = 0;
+	
+	let lightboxTouchStartX = 0;
+	let lightboxTouchEndX = 0;
+
+	function updateGalleryCount() {
+	  const slides = getGallerySlides();
+
+	  if (!slides.length || !galleryCount) return;
+
+	  const currentIndex = getCurrentSlideIndex();
+
+	  galleryCount.textContent =
+		`${currentIndex + 1} / ${slides.length}`;
+	}
+
+	function openLightbox(index) {
+	  const slides = getGallerySlides();
+
+	  if (!slides.length) return;
+
+	  const img = slides[index]?.querySelector("img");
+
+	  if (!img) return;
+
+	  lightboxIndex = index;
+
+	  lightboxImage.src = img.src;
+	  lightboxImage.alt = img.alt || "웨딩 사진";
+
+	  lightboxCount.textContent =
+		`${index + 1} / ${slides.length}`;
+
+	  photoLightbox.classList.add("show");
+	  document.body.classList.add("lightbox-open");
+	}
+
+	function closeLightbox() {
+	  photoLightbox.classList.remove("show");
+	  document.body.classList.remove("lightbox-open");
+	}
+
+	function showLightboxPhoto(index) {
+	  const slides = getGallerySlides();
+
+	  if (!slides.length) return;
+
+	  if (index < 0) {
+		index = slides.length - 1;
+	  }
+
+	  if (index >= slides.length) {
+		index = 0;
+	  }
+
+	  openLightbox(index);
+	}
+
+	getGallerySlides().forEach((slide, index) => {
+	  const img = slide.querySelector("img");
+
+	  if (!img) return;
+
+	  img.addEventListener("click", () => {
+		openLightbox(index);
+	  });
+	});
+
+	lightboxClose?.addEventListener("click", closeLightbox);
+
+	lightboxPrev?.addEventListener("click", () => {
+	  showLightboxPhoto(lightboxIndex - 1);
+	});
+
+	lightboxNext?.addEventListener("click", () => {
+	  showLightboxPhoto(lightboxIndex + 1);
+	});
+
+	photoLightbox?.addEventListener("click", (e) => {
+	  if (e.target === photoLightbox) {
+		closeLightbox();
+	  }
+	});
+
+	track?.addEventListener("scroll", () => {
+	  window.requestAnimationFrame(updateGalleryCount);
+	});
+
+	updateGalleryCount();
+
+	function handleLightboxSwipe() {
+	  const swipeDistance =
+		lightboxTouchEndX - lightboxTouchStartX;
+
+	  // 너무 짧은 움직임은 무시
+	  if (Math.abs(swipeDistance) < 50) {
+		return;
+	  }
+
+	  // 왼쪽으로 밀면 다음 사진
+	  if (swipeDistance < 0) {
+		showLightboxPhoto(lightboxIndex + 1);
+	  }
+
+	  // 오른쪽으로 밀면 이전 사진
+	  if (swipeDistance > 0) {
+		showLightboxPhoto(lightboxIndex - 1);
+	  }
+	}
+
+	photoLightbox?.addEventListener(
+	  "touchstart",
+	  (e) => {
+		lightboxTouchStartX =
+		  e.changedTouches[0].screenX;
+	  },
+	  { passive: true }
+	);
+
+	photoLightbox?.addEventListener(
+	  "touchend",
+	  (e) => {
+		lightboxTouchEndX =
+		  e.changedTouches[0].screenX;
+
+		handleLightboxSwipe();
+	  },
+	  { passive: true }
+	);
+
+	/* ===== 사진 확대 + 사진 번호 표시 끝 ===== */
 
     let dragStartScrollLeft = 0;
     let dragEndTimer = null;
