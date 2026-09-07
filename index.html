@@ -727,102 +727,173 @@ textarea:disabled {
   font-weight:500;
 }
 
-.photo-lightbox{
-  position:fixed;
-  inset:0;
-  z-index:300;
+/* 사진 확대 팝업 */
+.photo-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
 
-  display:none;
-  align-items:center;
-  justify-content:center;
+  display: none;
+  align-items: center;
+  justify-content: center;
 
-  padding:52px 16px 60px;
+  padding: 20px;
 
-  background:rgba(15,22,30,.94);
+  background: rgba(22, 34, 50, 0.48);
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  touch-action: none;
 }
 
-.photo-lightbox.show{
-  display:flex;
+.photo-lightbox.show {
+  display: flex;
 }
 
-.photo-lightbox img{
-  display:block;
 
-  max-width:100%;
-  max-height:calc(100dvh - 120px);
+/* 사진이 들어가는 실제 팝업 */
+.lightbox-card {
+  position: relative;
 
-  object-fit:contain;
+  width: min(84vw, 360px);
 
-  border-radius:10px;
-  box-shadow:0 18px 60px rgba(0,0,0,.35);
+  padding: 14px 14px 11px;
+
+  background: #fff;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 20px 60px rgba(16, 27, 42, 0.28);
+
+  animation: photoPopup .2s ease;
 }
 
-.lightbox-close{
-  position:absolute;
-  top:14px;
-  right:16px;
+@keyframes photoPopup {
+  from {
+    opacity: 0;
+    transform: scale(.96);
+  }
 
-  width:42px;
-  height:42px;
-
-  border:0;
-  border-radius:50%;
-
-  background:rgba(255,255,255,.14);
-  color:#fff;
-
-  font-size:29px;
-  line-height:1;
-
-  cursor:pointer;
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.lightbox-nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
 
-  width:44px;
-  height:44px;
+/* 이미지 영역 */
+.lightbox-image-wrap {
+  position: relative;
 
-  border:0;
-  border-radius:50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  background:rgba(255,255,255,.14);
-  color:#fff;
+  width: 100%;
 
-  font-size:30px;
-  cursor:pointer;
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background: #f4f6f8;
 }
 
-.lightbox-prev{
-  left:10px;
+
+/* 확대된 사진 */
+.photo-lightbox img {
+  display: block;
+
+  width: auto;
+  max-width: 100%;
+
+  height: auto;
+  max-height: 62dvh;
+
+  object-fit: contain;
+
+  border-radius: 16px;
 }
 
-.lightbox-next{
-  right:10px;
+
+/* 닫기 버튼 */
+.lightbox-close {
+  position: absolute;
+
+  top: -13px;
+  right: -8px;
+
+  z-index: 5;
+
+  width: 34px;
+  height: 34px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(37, 50, 71, .88);
+  color: #fff;
+
+  font-size: 23px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
 }
 
-.lightbox-count{
-  position:absolute;
-  left:50%;
-  bottom:18px;
-  transform:translateX(-50%);
 
-  padding:6px 12px;
+/* 이전/다음 버튼 */
+.lightbox-nav {
+  position: absolute;
 
-  background:rgba(255,255,255,.14);
-  border-radius:999px;
+  top: 50%;
+  transform: translateY(-50%);
 
-  color:#fff;
+  z-index: 4;
 
-  font-family:"Pretendard",sans-serif;
-  font-size:12px;
-  font-weight:500;
+  width: 34px;
+  height: 34px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(30, 40, 52, .42);
+  color: #fff;
+
+  font-size: 25px;
+
+  cursor: pointer;
 }
 
-body.lightbox-open{
-  overflow:hidden;
+.lightbox-prev {
+  left: 8px;
+}
+
+.lightbox-next {
+  right: 8px;
+}
+
+
+/* 현재 사진 번호 */
+.lightbox-count {
+  margin-top: 9px;
+
+  text-align: center;
+
+  color: #6f7d8f;
+
+  font-family: "Pretendard", sans-serif;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+/* 팝업이 열렸을 때 배경 스크롤 방지 */
+body.lightbox-open {
+  overflow: hidden;
 }
 
   </style>
@@ -1193,21 +1264,56 @@ body.lightbox-open{
     <footer>소중한 걸음으로 함께해 주세요.<br />2026.12.20 SUN 11:30 AM</footer>
   </main>
   
-  <img
-    id="lightboxImage"
-    src=""
-    alt="웨딩 사진 확대 보기"
-  />
-  <button
-    class="lightbox-nav lightbox-next"
-    id="lightboxNext"
-    type="button"
-    aria-label="다음 사진"
-  >
-    ›
-  </button>
-  <div class="lightbox-count" id="lightboxCount"></div>
-</div>
+	<!-- 사진 확대 팝업 -->
+	<div class="photo-lightbox" id="photoLightbox">
+
+	  <div class="lightbox-card">
+
+		<button
+		  class="lightbox-close"
+		  id="lightboxClose"
+		  type="button"
+		  aria-label="사진 닫기"
+		>
+		  ×
+		</button>
+
+		<div class="lightbox-image-wrap">
+
+		  <button
+			class="lightbox-nav lightbox-prev"
+			id="lightboxPrev"
+			type="button"
+			aria-label="이전 사진"
+		  >
+			‹
+		  </button>
+
+		  <img
+			id="lightboxImage"
+			src=""
+			alt="웨딩 사진 확대 보기"
+		  />
+
+		  <button
+			class="lightbox-nav lightbox-next"
+			id="lightboxNext"
+			type="button"
+			aria-label="다음 사진"
+		  >
+			›
+		  </button>
+
+		</div>
+
+		<div
+		  class="lightbox-count"
+		  id="lightboxCount"
+		></div>
+
+	  </div>
+
+	</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
