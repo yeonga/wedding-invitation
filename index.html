@@ -728,6 +728,7 @@ textarea:disabled {
 }
 
 /* 사진 확대 팝업 */
+
 .photo-lightbox {
   position: fixed;
   inset: 0;
@@ -737,12 +738,12 @@ textarea:disabled {
   align-items: center;
   justify-content: center;
 
-  padding: 20px;
+  padding: 6px;
 
-  background: rgba(22, 34, 50, 0.48);
+  background: rgba(22, 34, 50, 0.60);
 
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 
   touch-action: none;
 }
@@ -751,21 +752,27 @@ textarea:disabled {
   display: flex;
 }
 
-
-/* 사진이 들어가는 실제 팝업 */
+/* 팝업 전체 크기 */
 .lightbox-card {
   position: relative;
 
-  width: min(84vw, 360px);
+  width: calc(100vw - 12px);
+  max-width: 430px;
 
-  padding: 14px 14px 11px;
+  height: calc(100dvh - 12px);
+  max-height: 880px;
+
+  padding: 10px;
 
   background: #fff;
-
-  border-radius: 22px;
+  border-radius: 20px;
 
   box-shadow:
-    0 20px 60px rgba(16, 27, 42, 0.28);
+    0 20px 60px rgba(16, 27, 42, 0.30);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   animation: photoPopup .2s ease;
 }
@@ -783,38 +790,41 @@ textarea:disabled {
 }
 
 
-/* 이미지 영역 */
+/* 사진 들어가는 영역 */
 .lightbox-image-wrap {
   position: relative;
+
+  width: 100%;
+  flex: 1;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 100%;
+  min-height: 0;
 
   overflow: hidden;
 
-  border-radius: 16px;
-
+  border-radius: 15px;
   background: #f4f6f8;
 }
 
 
-/* 확대된 사진 */
+/* 실제 확대 사진 */
 .photo-lightbox img {
   display: block;
 
-  width: auto;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
 
-  height: auto;
-  max-height: 62dvh;
+  max-width: 100%;
+  max-height: 100%;
 
   object-fit: contain;
 
-  border-radius: 16px;
+  border-radius: 15px;
 }
+
 
 
 /* 닫기 버튼 */
@@ -876,16 +886,17 @@ textarea:disabled {
 }
 
 
-/* 현재 사진 번호 */
+/* 사진 번호 */
 .lightbox-count {
-  margin-top: 9px;
+  flex: 0 0 auto;
+
+  margin-top: 8px;
 
   text-align: center;
 
   color: #6f7d8f;
 
   font-family: "Pretendard", sans-serif;
-
   font-size: 12px;
   font-weight: 500;
 }
