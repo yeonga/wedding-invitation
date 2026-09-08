@@ -1334,14 +1334,38 @@ body.lightbox-open {
         SUPABASE_URL,
         SUPABASE_ANON_KEY
       );
+	  
+	 // KST 날짜 기준 D-Day 계산 (시각 무시)
+	const now = new Date();
 
-    const WEDDING_DATE = new Date("2026-12-20T11:30:00+09:00");
-    const today = new Date();
-    const diff = Math.ceil((WEDDING_DATE - today) / (1000 * 60 * 60 * 24));
-    const ddayEl = document.getElementById("dday");
-    if (ddayEl) {
-      ddayEl.innerText = diff > 0 ? "D-" + diff : diff === 0 ? "D-Day" : "결혼식이 지났습니다";
-    }
+	const kstDateString = new Intl.DateTimeFormat("en-CA", {
+	  timeZone: "Asia/Seoul",
+	  year: "numeric",
+	  month: "2-digit",
+	  day: "2-digit"
+	}).format(now);
+
+	const [year, month, day] = kstDateString.split("-").map(Number);
+
+	// 오늘과 예식일을 UTC 자정 기준의 '날짜'로만 변환
+	const todayDate = Date.UTC(year, month - 1, day);
+	const weddingDate = Date.UTC(2026, 11, 20);
+
+	const diff = Math.round(
+	  (weddingDate - todayDate) / (1000 * 60 * 60 * 24)
+	);
+
+	const ddayEl = document.getElementById("dday");
+
+	if (ddayEl) {
+	  if (diff > 0) {
+		ddayEl.textContent = `D-${diff}`;
+	  } else if (diff === 0) {
+		ddayEl.textContent = "D-Day";
+	  } else {
+		ddayEl.textContent = `D+${Math.abs(diff)}`;
+	  }
+	}
 
     function copyText(text) {
       navigator.clipboard.writeText(text).then(() => alert("복사되었습니다."));
