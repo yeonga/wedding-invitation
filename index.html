@@ -132,54 +132,6 @@ section {
     .snowflake{position:absolute;top:-24px;color:rgba(255,255,255,.92);text-shadow:0 0 8px rgba(111,143,175,.55);animation-name:snowFall;animation-timing-function:linear;animation-iteration-count:infinite;user-select:none}
     @keyframes snowFall{0%{transform:translate3d(0,-30px,0) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translate3d(var(--drift),105vh,0) rotate(360deg);opacity:.85}}
 
-.rsvp-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-
-  display: none;
-  place-items: center;
-
-  width: 100%;
-  height: 100%;
-  padding: 16px;
-
-  background: rgba(22, 34, 50, 0.55);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-
-  overflow-y: auto;
-}
-
-.rsvp-modal.show {
-  display: grid;
-}
-
-.rsvp-modal-card {
-  width: min(390px, calc(100vw - 32px));
-
-  max-height: calc(100vh - 32px);
-  max-height: calc(100dvh - 32px);
-
-  margin: auto;
-  padding: 26px 22px;
-
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  box-shadow: 0 24px 70px rgba(16, 27, 42, 0.28);
-
-  text-align: center;
-}
-
-    .rsvp-modal-card .section-title{margin-bottom:10px}
-    .rsvp-modal-actions{display:flex;gap:10px;margin-top:10px}
-    .rsvp-modal-actions .btn{margin-top:0}
-    .modal-close{width:100%;border:0;background:transparent;color:var(--muted);padding:12px 0 0;font-size:13px;cursor:pointer}
-    body.modal-open{overflow:hidden}
     .validation-error{margin:8px 0 0;color:#b24a4a;font-size:12px;line-height:1.5}
 
 
@@ -503,60 +455,8 @@ textarea:disabled {
   word-break:keep-all;
 }
 
-/* RSVP 폼 글꼴 */
-#rsvp .form,
-#rsvpModal .form {
-  font-family:
-    "Pretendard",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Apple SD Gothic Neo",
-    sans-serif;
-}
-
-/* 항목명 */
-#rsvp .field > label,
-#rsvpModal .field > label {
-  margin-bottom: 9px;
-  color: #526173;
-  font-family: "Pretendard", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-}
-
-/* 일반 입력창 - 체크박스 제외 */
-#rsvp input:not([type="checkbox"]),
-#rsvpModal input:not([type="checkbox"]),
-#rsvp select,
-#rsvpModal select {
-  width: 100%;
-  min-height: 60px;
-
-  padding: 0 18px;
-
-  border: 1px solid #d8e2ec;
-  border-radius: 17px;
-
-  background-color: #fff;
-  color: #34445a;
-
-  font-family:
-    "Pretendard",
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
-
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-
-  box-shadow: 0 3px 12px rgba(37,50,71,.03);
-}
-
 /* Select */
-#rsvp select,
-#rsvpModal select {
+#rsvp select {
   padding-left: 18px;
   padding-right: 42px;
 }
@@ -658,53 +558,6 @@ textarea:disabled {
   font-size: 10px;
   font-weight: 400;
   line-height: 1.4;
-}
-
-.modal-music-guide{
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  margin:0 0 16px;
-  padding:11px 13px;
-
-  background:#f3f7fa;
-  border:1px solid #dbe5ed;
-  border-radius:14px;
-
-  font-family:"Pretendard",sans-serif;
-  text-align:left;
-}
-
-.modal-music-icon{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  width:32px;
-  height:32px;
-  flex:0 0 32px;
-
-  border-radius:50%;
-  background:#e3ebf3;
-  color:#526f8d;
-
-  font-size:16px;
-  font-weight:600;
-}
-
-.modal-music-guide strong{
-  display:block;
-  color:#34445a;
-  font-size:12px;
-  font-weight:600;
-}
-
-.modal-music-guide p{
-  margin:2px 0 0;
-  color:#7b8797;
-  font-size:11px;
-  line-height:1.5;
 }
 
 .gallery-count{
@@ -911,106 +764,7 @@ body.lightbox-open {
 </head>
 <body>
   <div class="snow-layer" id="snowLayer" aria-hidden="true"></div>
-
-  <div class="rsvp-modal" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpModalTitle">
-    <div class="rsvp-modal-card">
-      <h2 class="section-title" id="rsvpModalTitle">RSVP</h2>
-	  <div class="modal-music-guide">
-  <span class="modal-music-icon">♪</span>
-  <div>
-    <strong>음악과 함께 둘러봐 주세요</strong>
-    <p>RSVP 작성 후 우측 하단에서 음악을 켤 수 있어요.</p>
-  </div>
-</div>
-      <p class="message">결혼식과 함께 코스 요리가 제공됩니다.</p>
-      <p class="message">본 예식은 1부 예식과 2부 피로연(식사)이 <br /> 한 자리에서 진행되는 동시 예식입니다.</p>
-      <p class="message">동시예식 준비를 위해<br />참석 여부를 먼저 알려주세요.</p>
-      <form class="form" id="rsvpModalForm">
-        <div class="field">
-          <label for="modalSide">구분</label>
-          <select id="modalSide" required>
-            <option selected>신랑측</option>
-	    <option>신부측</option>
-          </select>
-        </div>
-        <div class="field"><label for="modalName">성함</label><input id="modalName" type="text" placeholder="예: 홍길동" required /></div>
-        <div class="field"><label for="modalPhone">연락처</label><input id="modalPhone" type="tel" placeholder="예: 010-0000-0000" maxlength="13" pattern="010-[0-9]{4}-[0-9]{4}" required /></div>
-        <div class="field"><label for="modalAttendance">참석 여부</label><select id="modalAttendance" required><option value="">선택해주세요</option><option>참석</option><option>불참</option><option>미정</option></select></div>
-        <div class="field"><label for="modalCompanions">동반 인원</label><select id="modalCompanions" required><option value="0">없음 / 본인만 참석</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select></div>
-        <div class="field"><label for="modalMeal">식사 예정 인원</label><select id="modalMeal" required><option value="0">식사 안 함</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명 이상</option></select><p class="meal-notice">
-    ※ 별도의 소인 메뉴는 없습니다. 아동도 식사 시 식권이 필요하니,
-    식사 인원에 포함해 주시고 입장 전 식권을 챙겨주세요.
-  </p></div>
-        <div class="field"><label for="modalMemo">전달사항</label><textarea id="modalMemo" placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea></div>
-		
-		<div class="privacy-agree">
-  <label class="privacy-check">
-    <input type="checkbox" id="modalPrivacyAgree" required />
-    <span>개인정보 수집 및 이용에 동의합니다.</span>
-  </label>
-
-  <button
-    class="privacy-detail-btn"
-    type="button"
-    onclick="togglePrivacy('modalPrivacyDetail')"
-  >
-    내용보기
-  </button>
-
-  <div class="privacy-detail" id="modalPrivacyDetail">
-    <strong>개인정보 수집 및 이용 안내</strong><br />
-    수집 항목: 성함, 연락처, 참석 여부, 동반 인원, 식사 예정 인원, 전달사항<br />
-    이용 목적: 결혼식 참석 여부 확인 및 예식 준비<br />
-    보유 기간: 예식 종료 후 필요한 확인 절차가 끝나는 시점까지<br /><br />
-    개인정보 수집 및 이용에 동의하지 않으실 수 있으나,
-    동의하지 않을 경우 RSVP 제출이 어렵습니다.
-  </div>
-</div>
-
-        <div id="modalRsvpError" class="validation-error"></div>
-		<div class="rsvp-modal-actions">
-		  <button class="btn" type="submit">
-			참석 여부 전달하기
-		  </button>
-		</div>
-        
-        <button class="modal-close" type="button" id="rsvpModalClose">나중에 작성하기</button>
-      </form>
-    </div>
-  </div>
   
-  <script>
-	  (function () {
-		const submittedKey = "wedding_rsvp_submitted_v1";
-		const legacyKey = "wedding_rsvp_submissions_v1";
-		const modal = document.getElementById("rsvpModal");
-
-		const url = new URL(window.location.href);
-		const resetRequested =
-		  url.searchParams.get("resetRsvp") === "1";
-
-		if (resetRequested) {
-		  localStorage.removeItem(submittedKey);
-		  localStorage.removeItem(legacyKey);
-
-		  url.searchParams.delete("resetRsvp");
-
-		  history.replaceState(
-			null,
-			"",
-			url.pathname + url.search + url.hash
-		  );
-		}
-
-		const alreadySubmitted =
-		  localStorage.getItem(submittedKey) === "yes";
-
-		if (modal && !alreadySubmitted) {
-		  modal.classList.add("show");
-		  document.body.classList.add("modal-open");
-		}
-	  })();
-	</script>
   <div class="music-guide" id="musicGuide">
   <strong>♪ 음악과 함께 천천히 둘러봐 주세요</strong>
   <span>우측 하단에서 음악을 켤 수 있어요.</span>
@@ -1176,16 +930,142 @@ body.lightbox-open {
 	
 	<section id="contact">
 	  <h2 class="section-title">Contact</h2>
+	  <p class="message">축하의 마음을 전해주세요.</p>
 
-	  <a class="btn"
-		 href="tel:01077543727">
-		 📞 신랑 윤성호 연락하기
-	  </a>
+	  <div class="account-accordion">
 
-	  <a class="btn light"
-		 href="tel:01099929591">
-		 📞 신부 피영아 연락하기
-	  </a>
+		<!-- 신랑측 -->
+		<button
+		  class="account-toggle"
+		  type="button"
+		  data-target="groomContacts"
+		>
+		  <span>신랑측 연락처</span>
+		  <span class="arrow">⌄</span>
+		</button>
+
+		<div class="account-panel" id="groomContacts">
+
+		  <!-- 신랑 -->
+		  <div class="account-card">
+			<div class="account-role">
+			  신랑 <span class="account-name">윤성호</span>
+			</div>
+
+			<div class="contact-actions">
+			  <a class="btn" href="tel:01077543727">
+				📞 전화하기
+			  </a>
+
+			  <a class="btn light" href="sms:01077543727">
+				💬 문자하기
+			  </a>
+			</div>
+		  </div>
+
+		  <!-- 신랑 아버지 -->
+		  <div class="account-card">
+			<div class="account-role">
+			  혼주 부 <span class="account-name">윤태순</span>
+			</div>
+
+			<div class="contact-actions">
+			  <a class="btn" href="tel:신랑아버지전화번호">
+				📞 전화하기
+			  </a>
+
+			  <a class="btn light" href="sms:신랑아버지전화번호">
+				💬 문자하기
+			  </a>
+			</div>
+		  </div>
+
+		  <!-- 신랑 어머니 -->
+		  <div class="account-card">
+			<div class="account-role">
+			  혼주 모 <span class="account-name">김정희</span>
+			</div>
+
+			<div class="contact-actions">
+			  <a class="btn" href="tel:신랑어머니전화번호">
+				📞 전화하기
+			  </a>
+
+			  <a class="btn light" href="sms:신랑어머니전화번호">
+				💬 문자하기
+			  </a>
+			</div>
+		  </div>
+
+		</div>
+
+
+		<!-- 신부측 -->
+		<button
+		  class="account-toggle"
+		  type="button"
+		  data-target="brideContacts"
+		>
+		  <span>신부측 연락처</span>
+		  <span class="arrow">⌄</span>
+		</button>
+
+		<div class="account-panel" id="brideContacts">
+
+		  <!-- 신부 -->
+		  <div class="account-card">
+			<div class="account-role">
+			  신부 <span class="account-name">피영아</span>
+			</div>
+
+			<div class="contact-actions">
+			  <a class="btn" href="tel:01099929591">
+				📞 전화하기
+			  </a>
+
+			  <a class="btn light" href="sms:01099929591">
+				💬 문자하기
+			  </a>
+			</div>
+		  </div>
+
+		  <!-- 신부 아버지 -->
+		  <div class="account-card">
+			<div class="account-role">
+			  혼주 부 <span class="account-name">피운호</span>
+			</div>
+
+			<div class="contact-actions">
+			  <a class="btn" href="tel:01081498145">
+				📞 전화하기
+			  </a>
+
+			  <a class="btn light" href="sms:01081498145">
+				💬 문자하기
+			  </a>
+			</div>
+		  </div>
+
+		  <!-- 신부 어머니 -->
+		  <div class="account-card">
+			<div class="account-role">
+			  혼주 모 <span class="account-name">김명순</span>
+			</div>
+
+			<div class="contact-actions">
+			  <a class="btn" href="tel:01044676589">
+				📞 전화하기
+			  </a>
+
+			  <a class="btn light" href="sms:01044676589">
+				💬 문자하기
+			  </a>
+			</div>
+		  </div>
+
+		</div>
+
+	  </div>
 	</section>
 
     <section id="rsvp">
@@ -1788,18 +1668,6 @@ body.lightbox-open {
       };
     }
 
-    function readModalRsvpData() {
-      return {
-        side: document.getElementById("modalSide").value,
-        name: document.getElementById("modalName").value,
-        phone: document.getElementById("modalPhone").value,
-        attendance: document.getElementById("modalAttendance").value,
-        companions: Number(document.getElementById("modalCompanions").value),
-        meal_count: Number(document.getElementById("modalMeal").value),
-        memo: document.getElementById("modalMemo").value
-      };
-    }
-
     function fillMainRsvp(data) {
       document.getElementById("side").value = data.side;
       document.getElementById("name").value = data.name;
@@ -1891,13 +1759,9 @@ function renderRsvpState() {
   }
 }
 
-if (
-  localStorage.getItem(RSVP_SUBMITTED_KEY) === "yes"
-) {
-  setTimeout(() => {
-    showMusicGuide();
-  }, 700);
-}
+setTimeout(() => {
+  showMusicGuide();
+}, 700);
 
 setupAttendanceToggle(
   document.getElementById("attendance"),
@@ -1909,18 +1773,6 @@ setupAttendanceToggle(
 setupMealLimit(
   document.getElementById("companions"),
   document.getElementById("meal")
-);
-
-setupAttendanceToggle(
-  document.getElementById("modalAttendance"),
-  document.getElementById("modalCompanions"),
-  document.getElementById("modalMeal"),
-  document.getElementById("modalMemo")
-);
-
-setupMealLimit(
-  document.getElementById("modalCompanions"),
-  document.getElementById("modalMeal")
 );
 
     const mainForm = document.getElementById("rsvpForm");
@@ -1940,70 +1792,6 @@ setupMealLimit(
 		});
       formatPhoneInput(document.getElementById("phone"));
     }
-
-    const rsvpModal = document.getElementById("rsvpModal");
-    const rsvpModalClose = document.getElementById("rsvpModalClose");
-    const rsvpModalForm = document.getElementById("rsvpModalForm");
-	
-function openRsvpModal() {
-  if (!rsvpModal) return;
-
-  document.body.classList.add("modal-open");
-  rsvpModal.classList.add("show");
-}
-
-    function closeRsvpModal() { if (!rsvpModal) return; rsvpModal.classList.remove("show"); document.body.classList.remove("modal-open"); }
-
-if (rsvpModal) {
-
-  renderRsvpState();
-
-rsvpModalClose &&
-  rsvpModalClose.addEventListener("click", () => {
-    closeRsvpModal();
-
-    setTimeout(() => {
-      showMusicGuide();
-    }, 300);
-  });
-
-rsvpModal.addEventListener("click", (e) => {
-  if (e.target === rsvpModal) {
-    closeRsvpModal();
-
-    setTimeout(() => {
-      showMusicGuide();
-    }, 300);
-  }
-});
-
-  formatPhoneInput(document.getElementById("modalPhone"));
-
-  rsvpModalForm &&
-    rsvpModalForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const data = readModalRsvpData();
-      const submitButton = e.currentTarget.querySelector("button[type='submit']");
-
-      const ok = await submitRsvpData(
-        data,
-        "modalRsvpError",
-        submitButton
-      );
-
-      if (ok) {
-  fillMainRsvp(data);
-  closeRsvpModal();
-
-  setTimeout(() => {
-    showMusicGuide();
-  }, 300);
-}
-
-    });
-
-}
 
     document.querySelectorAll(".account-toggle").forEach((button) => {
       button.addEventListener("click", () => {
