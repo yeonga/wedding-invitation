@@ -786,9 +786,9 @@
     </section>
 
     <nav>
-        <a href="#intro">초대합니다</a><a href="#date">예식정보</a><a href="#gallery">사진</a>
+        <a href="#intro">초대합니다</a><a href="#date">예식정보</a><a href="#gallery">사진</a><a href="#rsvp">참석여부</a>
         <a href="#Account">마음 전하실 곳</a><a href="#location">오시는 길</a><a href="#contact">연락처</a>
-        <a href="#rsvp">참석여부</a><a href="#share">공유</a>
+        <a href="#share">공유</a>
     </nav>
 
     <section id="intro">
@@ -854,6 +854,109 @@
         </div>
     </section>
 
+    <section id="rsvp">
+        <h2 class="section-title">참석 여부 전달</h2>
+        <p class="message">결혼식과 함께 코스 요리가 제공됩니다.</p>
+        <p class="message">본 예식은 1부 예식과 2부 피로연(식사)이 한 자리에서 <br/> 진행되는 동시 예식입니다.</p>
+        <p class="message">동시예식 준비를 위해 참석 여부와 동반 인원을 알려주세요.</p>
+        <div id="rsvpFormWrap">
+            <form class="card form" id="rsvpForm">
+                <div class="field"><label for="side">구분</label><select id="side" required>
+                    <option value="">선택해주세요</option>
+                    <option selected>신랑측</option>
+                    <option>신부측</option>
+                </select></div>
+                <div class="field"><label for="name">성함</label><input id="name" type="text" placeholder="예: 홍길동"
+                                                                      required/></div>
+                <div class="field"><label for="phone">연락처</label><input id="phone" type="tel"
+                                                                        placeholder="예: 010-0000-0000" maxlength="13"
+                                                                        pattern="010-[0-9]{4}-[0-9]{4}" required/></div>
+                <div class="field"><label for="attendance">참석 여부</label><select id="attendance" required>
+                    <option value="">선택해주세요</option>
+                    <option>참석</option>
+                    <option>불참</option>
+                    <option>미정</option>
+                </select></div>
+                <div class="field"><label for="companions">동반 인원</label><select id="companions" required>
+                    <option value="0">없음 / 본인만 참석</option>
+                    <option value="1">1명</option>
+                    <option value="2">2명</option>
+                    <option value="3">3명</option>
+                    <option value="4">4명 이상</option>
+                </select></div>
+                <div class="field"><label for="meal">식사 예정 인원</label><select id="meal" required>
+                    <option value="0">식사 안 함</option>
+                    <option value="1">1명</option>
+                    <option value="2">2명</option>
+                    <option value="3">3명</option>
+                    <option value="4">4명 이상</option>
+                </select>
+                    <p class="meal-notice">
+                        ※ 별도의 소인 메뉴는 없습니다. 아동도 식사 시 식권이 필요하니,
+                        식사 인원에 포함해 주시고 입장 전 식권을 챙겨주세요.
+                    </p></div>
+                <div class="field"><label for="memo">전달사항</label><textarea id="memo"
+                                                                           placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea>
+                </div>
+
+                <div class="privacy-agree">
+                    <label class="privacy-check">
+                        <input type="checkbox" id="privacyAgree" required/>
+                        <span>개인정보 수집 및 이용에 동의합니다.</span>
+                    </label>
+
+                    <button
+                            class="privacy-detail-btn"
+                            type="button"
+                            onclick="togglePrivacy('privacyDetail')"
+                    >
+                        내용보기
+                    </button>
+
+                    <div class="privacy-detail" id="privacyDetail">
+                        <strong>개인정보 수집 및 이용 안내</strong><br/>
+                        수집 항목: 성함, 연락처, 참석 여부, 동반 인원, 식사 예정 인원, 전달사항<br/>
+                        이용 목적: 결혼식 참석 여부 확인 및 예식 준비<br/>
+                        보유 기간: 예식 종료 후 필요한 확인 절차가 끝나는 시점까지<br/><br/>
+                        개인정보 수집 및 이용에 동의하지 않으실 수 있으나,
+                        동의하지 않을 경우 RSVP 제출이 어렵습니다.
+                    </div>
+                </div>
+
+                <button class="btn" type="submit">참석 여부 전달하기</button>
+            </form>
+        </div>
+        <div id="rsvpDone" class="card" style="display:none;text-align:center;">
+
+            <h3 style="margin-bottom:14px;">
+                참석 여부가 정상적으로 전달되었습니다.
+            </h3>
+
+            <p class="message">
+
+                소중한 시간을 내어 응답해 주셔서
+                진심으로 감사합니다.
+
+                <br><br>
+
+                예식 준비에 큰 도움이 되었습니다.
+
+                <br><br>
+
+                변경이 필요하신 경우에는
+
+                신랑 또는 신부에게
+                편하게 연락 부탁드립니다.
+
+            </p>
+
+            <a class="btn light" href="#contact">
+                신랑 · 신부 연락하기
+            </a>
+
+        </div>
+    </section>
+    
     <section id="gallery">
         <h2 class="section-title">Gallery</h2>
         <p class="message">사진을 좌우로 넘기거나 눌러서 크게 보세요.</p>
@@ -1193,109 +1296,6 @@
                 </div>
 
             </div>
-
-        </div>
-    </section>
-
-    <section id="rsvp">
-        <h2 class="section-title">참석 여부 전달</h2>
-        <p class="message">결혼식과 함께 코스 요리가 제공됩니다.</p>
-        <p class="message">본 예식은 1부 예식과 2부 피로연(식사)이 한 자리에서 <br/> 진행되는 동시 예식입니다.</p>
-        <p class="message">동시예식 준비를 위해 참석 여부와 동반 인원을 알려주세요.</p>
-        <div id="rsvpFormWrap">
-            <form class="card form" id="rsvpForm">
-                <div class="field"><label for="side">구분</label><select id="side" required>
-                    <option value="">선택해주세요</option>
-                    <option selected>신랑측</option>
-                    <option>신부측</option>
-                </select></div>
-                <div class="field"><label for="name">성함</label><input id="name" type="text" placeholder="예: 홍길동"
-                                                                      required/></div>
-                <div class="field"><label for="phone">연락처</label><input id="phone" type="tel"
-                                                                        placeholder="예: 010-0000-0000" maxlength="13"
-                                                                        pattern="010-[0-9]{4}-[0-9]{4}" required/></div>
-                <div class="field"><label for="attendance">참석 여부</label><select id="attendance" required>
-                    <option value="">선택해주세요</option>
-                    <option>참석</option>
-                    <option>불참</option>
-                    <option>미정</option>
-                </select></div>
-                <div class="field"><label for="companions">동반 인원</label><select id="companions" required>
-                    <option value="0">없음 / 본인만 참석</option>
-                    <option value="1">1명</option>
-                    <option value="2">2명</option>
-                    <option value="3">3명</option>
-                    <option value="4">4명 이상</option>
-                </select></div>
-                <div class="field"><label for="meal">식사 예정 인원</label><select id="meal" required>
-                    <option value="0">식사 안 함</option>
-                    <option value="1">1명</option>
-                    <option value="2">2명</option>
-                    <option value="3">3명</option>
-                    <option value="4">4명 이상</option>
-                </select>
-                    <p class="meal-notice">
-                        ※ 별도의 소인 메뉴는 없습니다. 아동도 식사 시 식권이 필요하니,
-                        식사 인원에 포함해 주시고 입장 전 식권을 챙겨주세요.
-                    </p></div>
-                <div class="field"><label for="memo">전달사항</label><textarea id="memo"
-                                                                           placeholder="예: 3살 아이 동반, 늦게 도착 등"></textarea>
-                </div>
-
-                <div class="privacy-agree">
-                    <label class="privacy-check">
-                        <input type="checkbox" id="privacyAgree" required/>
-                        <span>개인정보 수집 및 이용에 동의합니다.</span>
-                    </label>
-
-                    <button
-                            class="privacy-detail-btn"
-                            type="button"
-                            onclick="togglePrivacy('privacyDetail')"
-                    >
-                        내용보기
-                    </button>
-
-                    <div class="privacy-detail" id="privacyDetail">
-                        <strong>개인정보 수집 및 이용 안내</strong><br/>
-                        수집 항목: 성함, 연락처, 참석 여부, 동반 인원, 식사 예정 인원, 전달사항<br/>
-                        이용 목적: 결혼식 참석 여부 확인 및 예식 준비<br/>
-                        보유 기간: 예식 종료 후 필요한 확인 절차가 끝나는 시점까지<br/><br/>
-                        개인정보 수집 및 이용에 동의하지 않으실 수 있으나,
-                        동의하지 않을 경우 RSVP 제출이 어렵습니다.
-                    </div>
-                </div>
-
-                <button class="btn" type="submit">참석 여부 전달하기</button>
-            </form>
-        </div>
-        <div id="rsvpDone" class="card" style="display:none;text-align:center;">
-
-            <h3 style="margin-bottom:14px;">
-                참석 여부가 정상적으로 전달되었습니다.
-            </h3>
-
-            <p class="message">
-
-                소중한 시간을 내어 응답해 주셔서
-                진심으로 감사합니다.
-
-                <br><br>
-
-                예식 준비에 큰 도움이 되었습니다.
-
-                <br><br>
-
-                변경이 필요하신 경우에는
-
-                신랑 또는 신부에게
-                편하게 연락 부탁드립니다.
-
-            </p>
-
-            <a class="btn light" href="#contact">
-                신랑 · 신부 연락하기
-            </a>
 
         </div>
     </section>
